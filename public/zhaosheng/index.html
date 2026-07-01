@@ -1498,14 +1498,14 @@
       }
 
       function getMatchRank(m, subject) {
-        if (subject === 'wl') return m.phy_rank || null;
-        if (subject === 'ls') return m.his_rank || null;
+        if (subject === 'wl') return m.phy_rank || m.his_rank || null;
+        if (subject === 'ls') return m.his_rank || m.phy_rank || null;
         return m.rank || m.phy_rank || m.his_rank || null;
       }
 
       function getMatchScore(m, subject) {
-        if (subject === 'wl') return m.phy_score || null;
-        if (subject === 'ls') return m.his_score || null;
+        if (subject === 'wl') return m.phy_score || m.his_score || null;
+        if (subject === 'ls') return m.his_score || m.phy_score || null;
         return m.score || m.phy_score || m.his_score || null;
       }
 
