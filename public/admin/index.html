@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>管理后台</title>
+<style>
+:root {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --card-hover: #253349;
+  --border: #334155;
+  --text: #e2e8f0;
+  --text-muted: #94a3b8;
+  --accent: #c8a44e;
+  --green: #27ae60;
+  --blue: #3b82f6;
+  --red: #ef4444;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+}
+.page { max-width: 1100px; margin: 0 auto; padding: 40px 20px; }
+
+/* Login */
+.login-wrap {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh; padding: 20px;
+}
+.login-box {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 40px; width: 100%; max-width: 360px;
+}
+.login-box h1 { font-size: 20px; margin-bottom: 8px; }
+.login-box p { font-size: 13px; color: var(--text-muted); margin-bottom: 24px; }
+.login-box input {
+  width: 100%; padding: 12px 14px; border-radius: 10px;
+  border: 1px solid var(--border); background: var(--bg);
+  color: var(--text); font-size: 14px; outline: none;
+}
+.login-box input:focus { border-color: var(--accent); }
+.login-box .login-error { color: var(--red); font-size: 13px; margin-top: 8px; display: none; }
+.login-box button {
+  width: 100%; margin-top: 16px; padding: 12px; border-radius: 10px;
+  border: none; background: var(--accent); color: #0f172a;
+  font-size: 14px; font-weight: 700; cursor: pointer;
+}
+
+/* Header */
+.dash-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 32px;
+}
+.dash-header h1 { font-size: 24px; }
+.dash-header button {
+  padding: 8px 16px; border-radius: 8px; border: 1px solid var(--border);
+  background: transparent; color: var(--text-muted); font-size: 12px; cursor: pointer;
+}
+
+/* Stats grid */
+.stats-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 24px;
+}
+.stat-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 20px;
+}
+.stat-card .num { font-size: 32px; font-weight: 800; line-height: 1.1; }
+.stat-card .label { font-size: 13px; color: var(--text-muted); margin-top: 6px; }
+
+/* Charts */
+.chart-section { margin-bottom: 24px; }
+.chart-section h2 { font-size: 16px; margin-bottom: 12px; }
+.chart-wrap {
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 20px; overflow-x: auto;
+}
+.bar-chart {
+  display: flex; align-items: flex-end; gap: 8px; min-height: 160px;
+  padding-bottom: 24px; position: relative;
+}
+.bar-col {
+  flex: 1; display: flex; flex-direction: column; align-items: center;
+  gap: 6px; min-width: 32px;
+}
+.bar-fill {
+  width: 100%; max-width: 32px; border-radius: 4px 4px 0 0;
+  transition: height 400ms ease; min-height: 2px;
+}
+.bar-fill.pv { background: var(--accent); }
+.bar-fill.uv { background: var(--blue); opacity: 0.6; }
+.bar-label { font-size: 10px; color: var(--text-muted); white-space: nowrap; }
+.bar-val { font-size: 10px; color: var(--text-muted); }
+
+/* Split layout */
+.split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+.split-item {
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 20px;
+}
+.split-item h2 { font-size: 16px; margin-bottom: 12px; }
+
+/* Question / chat rows */
+.question-row, .chat-row {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  padding: 10px 0; border-bottom: 1px solid rgba(51,65,85,0.5); gap: 12px;
+}
+.question-row:last-child, .chat-row:last-child { border-bottom: none; }
+.question-row .q-text { font-size: 13px; line-height: 1.4; flex: 1; }
+.question-row .q-count {
+  font-size: 12px; color: var(--accent); font-weight: 700; white-space: nowrap;
+}
+.chat-row .c-source {
+  font-size: 11px; padding: 2px 6px; border-radius: 4px;
+  background: rgba(200,164,78,0.12); color: var(--accent); white-space: nowrap;
+}
+.chat-row .c-question { font-size: 13px; flex: 1; line-height: 1.4; }
+.chat-row .c-time { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+
+/* Path breakdown */
+.path-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 0; border-bottom: 1px solid rgba(51,65,85,0.5);
+}
+.path-row:last-child { border-bottom: none; }
+.path-row .p-path { font-size: 13px; }
+.path-row .p-count { font-size: 13px; color: var(--text-muted); }
+
+.empty { font-size: 13px; color: var(--text-muted); padding: 20px 0; text-align: center; }
+
+@media (max-width: 640px) {
+  .stats-grid { grid-template-columns: 1fr; }
+  .split { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<div id="app"></div>
+
+<script>
+(function(){
+var STATE = 'login'; // login | dashboard
+var TOKEN = sessionStorage.getItem('adminToken') || '';
+
+function render() {
+  if (!TOKEN) { renderLogin(); return; }
+  fetchStats();
+}
+
+function renderLogin(msg) {
+  document.getElementById('app').innerHTML = '<div class="login-wrap"><div class="login-box"><h1>管理后台</h1><p>燕理智能招生系统</p><input type="password" id="loginPwd" placeholder="输入管理员密码" autocomplete="current-password"><div class="login-error" id="loginError">' + (msg || '') + '</div><button id="loginBtn">登录</button></div></div>';
+  document.getElementById('loginBtn').addEventListener('click', doLogin);
+  document.getElementById('loginPwd').addEventListener('keydown', function(e) { if (e.key === 'Enter') doLogin(); });
+  document.getElementById('loginPwd').focus();
+}
+
+function doLogin() {
+  var pwd = document.getElementById('loginPwd').value;
+  if (!pwd) return;
+  fetch('/api/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password: pwd }) })
+    .then(function(r) { if (!r.ok) throw new Error('密码错误'); return r.json(); })
+    .then(function(data) {
+      TOKEN = data.token;
+      sessionStorage.setItem('adminToken', TOKEN);
+      render();
+    })
+    .catch(function() { document.getElementById('loginError').textContent = '密码错误'; document.getElementById('loginError').style.display = 'block'; });
+}
+
+function fetchStats() {
+  document.getElementById('app').innerHTML = '<div class="page" style="text-align:center;padding-top:80px;color:var(--text-muted)">加载中...</div>';
+  fetch('/api/admin/stats?days=14', { headers: { 'x-admin-token': TOKEN } })
+    .then(function(r) { if (r.status === 401) { TOKEN = ''; sessionStorage.removeItem('adminToken'); renderLogin(); throw new Error('unauth'); } return r.json(); })
+    .then(function(data) { renderDashboard(data); })
+    .catch(function(err) { if (err.message !== 'unauth') document.getElementById('app').innerHTML = '<div class="page" style="text-align:center;padding-top:80px;color:var(--red)">加载失败</div>'; });
+}
+
+function renderDashboard(data) {
+  var maxPv = 1;
+  var maxUv = 1;
+  (data.dailyStats || []).forEach(function(d) {
+    if (d.pv > maxPv) maxPv = d.pv;
+    if (d.uv > maxUv) maxUv = d.uv;
+  });
+
+  var barsHtml = (data.dailyStats || []).map(function(d) {
+    var pvH = Math.max(2, (d.pv / maxPv) * 120);
+    var uvH = Math.max(2, (d.uv / maxUv) * 120);
+    return '<div class="bar-col"><div class="bar-fill uv" style="height:' + uvH + 'px"></div><div class="bar-fill pv" style="height:' + pvH + 'px"></div><div class="bar-val">' + d.pv + '</div><div class="bar-label">' + d.date.slice(5) + '</div></div>';
+  }).join('');
+
+  var hotHtml = (data.hotQuestions || []).length
+    ? data.hotQuestions.map(function(q) {
+        return '<div class="question-row"><span class="q-text">' + esc(q.question) + '</span><span class="q-count">' + q.count + '</span></div>';
+      }).join('')
+    : '<div class="empty">暂无数据</div>';
+
+  var recentHtml = (data.recentChats || []).length
+    ? data.recentChats.map(function(c) {
+        var src = c.source === 'yanli' ? '校园助手' : '招生推荐';
+        var time = (c.created_at || '').slice(0, 16).replace('T', ' ');
+        return '<div class="chat-row"><span class="c-source">' + src + '</span><span class="c-question">' + esc(c.question.slice(0, 60)) + '</span><span class="c-time">' + time + '</span></div>';
+      }).join('')
+    : '<div class="empty">暂无数据</div>';
+
+  var pathHtml = (data.pageBreakdown || []).length
+    ? data.pageBreakdown.map(function(p) {
+        var name = p.path === '/' ? '招生工具' : p.path === '/helper' ? '校园助手' : p.path;
+        return '<div class="path-row"><span class="p-path">' + name + '</span><span class="p-count">' + p.count + ' 次</span></div>';
+      }).join('')
+    : '<div class="empty">暂无数据</div>';
+
+  document.getElementById('app').innerHTML = '<div class="page"><div class="dash-header"><h1>管理后台</h1><button id="logoutBtn">退出登录</button></div>'
+    + '<div class="stats-grid"><div class="stat-card"><div class="num" style="color:' + accentColor(data.totalPv) + '">' + data.totalPv + '</div><div class="label">总访问量 PV</div></div>'
+    + '<div class="stat-card"><div class="num" style="color:' + accentColor(data.totalUv) + '">' + data.totalUv + '</div><div class="label">独立访客 UV</div></div>'
+    + '<div class="stat-card"><div class="num" style="color:' + accentColor(data.totalChats) + '">' + data.totalChats + '</div><div class="label">总提问数</div></div></div>'
+    + '<div class="chart-section"><h2>近14天趋势（金=PV 蓝=UV）</h2><div class="chart-wrap"><div class="bar-chart">' + barsHtml + '</div></div></div>'
+    + '<div class="split"><div class="split-item"><h2>热门问题 TOP</h2>' + hotHtml + '</div>'
+    + '<div class="split-item"><h2>各页面访问量</h2>' + pathHtml + '</div></div>'
+    + '<div class="split-item" style="margin-bottom:24px"><h2>最近提问</h2>' + recentHtml + '</div>'
+    + '</div>';
+
+  document.getElementById('logoutBtn').addEventListener('click', function() {
+    TOKEN = '';
+    sessionStorage.removeItem('adminToken');
+    renderLogin();
+  });
+}
+
+function esc(s) {
+  var d = document.createElement('div');
+  d.textContent = s;
+  return d.innerHTML;
+}
+
+function accentColor(v) {
+  return v > 0 ? 'var(--accent)' : 'var(--text-muted)';
+}
+
+render();
+})();
+</script>
+</body>
+</html>
