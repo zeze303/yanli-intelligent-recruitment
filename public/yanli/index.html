@@ -1635,8 +1635,7 @@
         }
       }
 
-      chatSend.addEventListener('click', function () { chatForm.requestSubmit(); });
-      chatForsendBtn.addEventListener('click', function () { chatForm.requestSubmit(); });
+      sendBtn.addEventListener('click', function () { chatForm.requestSubmit(); });
       chatForm.addEventListener('submit', function (event) {
         event.preventDefault();
         if (isSending) {
