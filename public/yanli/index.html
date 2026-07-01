@@ -1417,7 +1417,60 @@
 
       </div>
 
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="fab-tip" id="fabTip" role="status" aria-live="polite">有什么想问的？</div>
+  <button class="fab-button" id="fabBtn" type="button" aria-label="打开AI问答">
+    <svg viewBox="0 0 48 48" width="28" height="28" fill="none">
+      <rect x="12" y="14" width="24" height="20" rx="8" stroke="#0a1628" stroke-width="2.5"/>
+      <circle cx="19" cy="22" r="2" fill="#0a1628"/>
+      <circle cx="29" cy="22" r="2" fill="#0a1628"/>
+      <rect x="19" y="27" width="10" height="2" rx="1" fill="#0a1628"/>
+      <line x1="18" y1="14" x2="18" y2="10" stroke="#0a1628" stroke-width="2"/>
+      <line x1="30" y1="14" x2="30" y2="10" stroke="#0a1628" stroke-width="2"/>
+    </svg>
+  </button>
+
+  <div class="chat-overlay" id="chatOverlay">
+    <div class="chat-panel" id="chatPanel">
+      <div class="chat-header">
+        <div class="chat-header-info">
+          <div class="chat-avatar">
+            <svg viewBox="0 0 48 48" width="24" height="24" fill="none">
+              <rect x="8" y="10" width="32" height="26" rx="10" stroke="#c8a44e" stroke-width="2"/>
+              <circle cx="16" cy="20" r="2.5" fill="#c8a44e"/>
+              <circle cx="32" cy="20" r="2.5" fill="#c8a44e"/>
+              <rect x="16" y="28" width="16" height="3" rx="1.5" fill="#c8a44e"/>
+              <line x1="14" y1="10" x2="8" y2="4" stroke="#c8a44e" stroke-width="2" stroke-linecap="round"/>
+              <line x1="34" y1="10" x2="40" y2="4" stroke="#c8a44e" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div>
+            <div class="chat-header-name">燕理小智</div>
+            <div class="chat-header-status">AI 智能问答</div>
+          </div>
+        </div>
+        <button class="chat-close" id="chatClose" type="button" aria-label="关闭聊天">
+          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M18 6L6 18M6 6l12 12" stroke="#8899b4" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-input-area">
+        <div class="quick-questions" id="quickQuestions">
+          <button type="button" class="quick-q" data-quick="报到流程">报到流程</button>
+          <button type="button" class="quick-q" data-quick="宿舍情况">宿舍情况</button>
+          <button type="button" class="quick-q" data-quick="校园卡">校园卡</button>
+        </div>
+        <div class="chat-input-row">
+          <textarea class="chat-input" id="chatInput" rows="1" placeholder="输入你的问题..." maxlength="500"></textarea>
+          <button class="chat-send" id="chatSend" type="button" aria-label="发送">
+            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="#0a1628" stroke-width="2" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="privacy">您的提问仅用于本次回答，不会存储</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
   <script>
     (function () {
