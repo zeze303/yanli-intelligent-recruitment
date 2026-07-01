@@ -117,8 +117,17 @@ body {
   font-size: 11px; padding: 2px 6px; border-radius: 4px;
   background: rgba(200,164,78,0.12); color: var(--accent); white-space: nowrap;
 }
+.chat-row { cursor: pointer; }
 .chat-row .c-question { font-size: 13px; flex: 1; line-height: 1.4; }
 .chat-row .c-time { font-size: 11px; color: var(--text-muted); white-space: nowrap; }
+.chat-detail {
+  display: none; background: rgba(0,0,0,0.2); border-radius: 8px;
+  padding: 12px; margin-top: 6px; margin-bottom: 6px;
+}
+.chat-detail.open { display: block; }
+.chat-detail .cd-label { font-size: 11px; color: var(--text-muted); margin-bottom: 4px; }
+.chat-detail .cd-text { font-size: 13px; line-height: 1.6; white-space: pre-wrap; word-break: break-word; }
+.chat-detail .cd-text + .cd-label { margin-top: 12px; }
 
 /* Path breakdown */
 .path-row {
@@ -200,12 +209,16 @@ function renderDashboard(data) {
     : '<div class="empty">暂无数据</div>';
 
   var recentHtml = (data.recentChats || []).length
-    ? data.recentChats.map(function(c) {
+    ? data.recentChats.map(function(c, ci) {
         var src = c.source === 'yanli' ? '校园助手' : '招生推荐';
         var time = (c.created_at || '').slice(0, 16).replace('T', ' ');
-        return '<div class="chat-row"><span class="c-source">' + src + '</span><span class="c-question">' + esc(c.question.slice(0, 60)) + '</span><span class="c-time">' + time + '</span></div>';
+        var q = c.question || '';
+        var a = c.answer || '';
+        return '<div class="chat-row" onclick="toggleChat(' + ci + ')"><span class="c-source">' + src + '</span><span class="c-question">' + esc(q.slice(0, 60)) + '</span><span class="c-time">' + time + '</span></div>'
+          + '<div class="chat-detail" id="cd' + ci + '"><div class="cd-label">问题</div><div class="cd-text">' + esc(q) + '</div><div class="cd-label">回答</div><div class="cd-text">' + esc(a) + '</div></div>';
       }).join('')
     : '<div class="empty">暂无数据</div>';
+
 
   var pathHtml = (data.pageBreakdown || []).length
     ? data.pageBreakdown.map(function(p) {
@@ -231,18 +244,22 @@ function renderDashboard(data) {
   });
 }
 
+render();
+})();
+
 function esc(s) {
   var d = document.createElement('div');
   d.textContent = s;
   return d.innerHTML;
 }
+function toggleChat(idx) {
+  var el = document.getElementById('cd' + idx);
+  if (el) el.classList.toggle('open');
+}
 
 function accentColor(v) {
   return v > 0 ? 'var(--accent)' : 'var(--text-muted)';
 }
-
-render();
-})();
 </script>
 </body>
 </html>
