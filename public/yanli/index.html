@@ -1252,16 +1252,6 @@
 
       </div>
 
-      class="privacy">您的提问仅用于本次回答，不会存储</div>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-  </main>
-
-
-
-
-  
-
       <div class="chat-head">
 
         <div class="chat-brand">
@@ -1340,7 +1330,7 @@
 
           <textarea class="chat-input" id="chatInput" rows="1" placeholder="输入你的问题..." maxlength="500"></textarea>
 
-          <button class="send-btn" id="sendBtn" type="button" disabled>发送</button>
+          <button class="send-btn" id="sendBtn" type="submit" disabled>发送</button>
 
         </div>
 
@@ -1351,7 +1341,8 @@
     </section>
 
   </div>
-您的提问仅用于本次回答，不会存储</p>
+<div class="privacy">您的提问仅用于本次回答，不会存储</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <script>
     (function () {
       var categories = Array.prototype.slice.call(document.querySelectorAll('[data-category]'));
