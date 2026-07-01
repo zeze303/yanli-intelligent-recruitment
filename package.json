@@ -5,7 +5,7 @@
   "scripts": {
     "build:data": "node build/build-data.js",
     "build:embeddings": "node build/build-embeddings.js",
-    "build": "npm run build:data && npm run build:embeddings",
+    "build": "npm run build:embeddings",
     "start": "node server.js"
   },
   "dependencies": {
