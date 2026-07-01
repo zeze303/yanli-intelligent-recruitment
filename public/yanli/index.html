@@ -1531,7 +1531,7 @@
 
           <textarea class="chat-input" id="chatInput" rows="1" placeholder="输入你的问题..." maxlength="500"></textarea>
 
-          <button class="send-btn" id="sendBtn" type="submit" disabled>发送</button>
+          <button class="send-btn" id="sendBtn" type="button" disabled>发送</button>
 
         </div>
 
@@ -1630,7 +1630,7 @@
 
           <textarea class="chat-input" id="chatInput" rows="1" placeholder="输入你的问题..." maxlength="500"></textarea>
 
-          <button class="send-btn" id="sendBtn" type="submit" disabled>发送</button>
+          <button class="send-btn" id="sendBtn" type="button" disabled>发送</button>
 
         </div>
 
@@ -1863,6 +1863,16 @@
       chatInput.addEventListener('focus', function () {
         hideFabTip(true);
       });
+      chatForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        if (isSending) return;
+        var question = chatInput.value.trim();
+        if (!question) { showToast('请输入问题'); chatInput.focus(); return; }
+        appendMessage('user', question);
+        chatInput.value = '';
+        updateSendButtonState();
+        sendMessage(question);
+      });
       chatInput.addEventListener('keydown', function (event) {
         if (event.key === 'Enter' && !event.shiftKey) {
           event.preventDefault();
@@ -1941,6 +1951,7 @@
       }
 
       chatSend.addEventListener('click', function () { chatForm.requestSubmit(); });
+      chatForsendBtn.addEventListener('click', function () { chatForm.requestSubmit(); });
       chatForm.addEventListener('submit', function (event) {
         event.preventDefault();
         if (isSending) {
