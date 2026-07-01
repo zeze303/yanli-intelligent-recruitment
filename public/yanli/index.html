@@ -66,10 +66,82 @@
       padding: 0;
     }
 
+    .topnav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      background: rgba(10,22,40,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,164,78,0.15);
+    }
+    .topnav-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      height: 48px;
+    }
+    .topnav-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .topnav-logo {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 1.5px solid #c8a44e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #c8a44e;
+      flex-shrink: 0;
+    }
+    .topnav-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #e8eaf0;
+      white-space: nowrap;
+    }
+    .topnav-badge {
+      font-size: 10px;
+      color: #6b8aaa;
+      border: 1px solid rgba(200,164,78,0.2);
+      border-radius: 4px;
+      padding: 1px 6px;
+      white-space: nowrap;
+    }
+    .topnav-links {
+      display: flex;
+      gap: 4px;
+    }
+    .topnav-link {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #8899b4;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .topnav-link:hover {
+      color: #e8eaf0;
+      background: rgba(255,255,255,0.06);
+    }
+    .topnav-link.active {
+      color: #c8a44e;
+      background: rgba(200,164,78,0.1);
+      font-weight: 600;
+    }
+
     .page {
       width: min(100%, 960px);
       margin: 0 auto;
-      padding: calc(14px + var(--safe-top)) 12px calc(96px + var(--safe-bottom));
+      padding: 64px 12px calc(96px + var(--safe-bottom));
     }
 
     .topbar {
@@ -136,27 +208,6 @@
       line-height: 1.4;
     }
 
-    .top-link {
-      position: relative;
-      z-index: 1;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      align-self: flex-start;
-      padding: 10px 12px;
-      border-radius: 999px;
-      color: var(--accent);
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      font-size: 13px;
-      font-weight: 700;
-      white-space: nowrap;
-      transition: transform 160ms ease, background 200ms ease;
-    }
-
-    .top-link:active {
-      transform: scale(0.97);
-    }
 
     .section {
       margin-top: 14px;
@@ -941,9 +992,6 @@
         padding-right: 18px;
       }
 
-      .topbar {
-        padding: 18px 20px;
-      }
 
       .brand-copy h1 {
         font-size: 26px;
@@ -995,15 +1043,7 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
 
-      .topbar {
-        align-items: flex-start;
-        flex-direction: column;
-      }
 
-      .top-link {
-        align-self: stretch;
-        justify-content: center;
-      }
 
       .message-bubble {
         max-width: 84%;
@@ -1023,8 +1063,21 @@
   </style>
 </head>
 <body>
+  <header class="topnav">
+    <div class="topnav-inner">
+      <a class="topnav-brand" href="/helper">
+        <span class="topnav-logo">Y</span>
+        <span class="topnav-title">燕理小智</span>
+        <span class="topnav-badge">校园助手</span>
+      </a>
+      <nav class="topnav-links">
+        <a class="topnav-link" href="/">查分</a>
+        <a class="topnav-link active" href="/helper">校园助手</a>
+      </nav>
+    </div>
+  </header>
   <main class="page">
-    <header class="topbar">
+    <!-- topbar removed -->
       <div class="brand">
         <div class="brand-mark" aria-hidden="true">
           <svg viewBox="0 0 48 48" width="28" height="28" fill="none">
