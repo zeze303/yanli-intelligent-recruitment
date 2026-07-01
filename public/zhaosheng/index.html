@@ -82,7 +82,7 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 12px;
+      gap: 8px;
       position: relative;
       z-index: 1;
     }
@@ -112,17 +112,21 @@
       max-width: 46ch;
     }
 
-    .hero-badge {
+    .hero-link {
       flex: none;
-      padding: 8px 10px;
+      display: inline-flex;
+      align-items: center;
+      padding: 6px 14px;
       border-radius: 999px;
       color: var(--accent);
-      background: rgba(255,255,255,0.09);
-      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(200,164,78,0.1);
+      border: 1px solid rgba(200,164,78,0.25);
       font-size: 12px;
-      font-weight: 700;
-      white-space: nowrap;
+      text-decoration: none;
+      transition: background 0.2s;
+      margin-left: 8px;
     }
+    .hero-link:hover { background: rgba(200,164,78,0.2); }
 
     .query-panel {
       position: sticky;
@@ -1058,9 +1062,9 @@
         <div>
           <div class="eyebrow">2026 招生查询</div>
           <h1>燕理智能招生工具</h1>
-          <p>输入分数与选科，即可查看位次、2025 等效分、本科线差，并按冲稳保筛选更适合的专业方向。</p>
+          <p>输入分数与选科,即可查看位次、2025 等效分、本科线差,并按冲稳保筛选更适合的专业方向。</p>
         </div>
-        <div class="hero-badge" id="heroBadge">57 个本科专业</div>
+        <a class="hero-link" href="/helper">校园生活 →</a>
       </div>
     </section>
 
@@ -1069,7 +1073,7 @@
         <div class="query-head">
           <div>
             <div class="query-title">查分选专业</div>
-            <div class="query-hint">支持物理类 / 历史类查询，按 2026 一分一段估算位次</div>
+            <div class="query-hint">支持物理类 / 历史类查询,按 2026 一分一段估算位次</div>
           </div>
         </div>
         <div class="query-row">
@@ -1089,17 +1093,17 @@
         <div class="result-summary" id="resultSummary" aria-live="polite">
           <div class="metric-card" data-metric-card>
             <div class="metric-label">考生位次</div>
-            <div class="metric-value" id="rankValue">—</div>
+            <div class="metric-value" id="rankValue">-</div>
             <div class="metric-note">按 2026 一分一段估算</div>
           </div>
           <div class="metric-card" data-metric-card>
             <div class="metric-label">2025 等效分</div>
-            <div class="metric-value" id="equivValue">—</div>
+            <div class="metric-value" id="equivValue">-</div>
             <div class="metric-note">基于两年位次分布估算</div>
           </div>
           <div class="metric-card" data-metric-card>
             <div class="metric-label">本科线差</div>
-            <div class="metric-value" id="lineDiffValue">—</div>
+            <div class="metric-value" id="lineDiffValue">-</div>
             <div class="metric-note" id="lineDiffNote">用于自动切换本科/专科</div>
           </div>
         </div>
@@ -1132,7 +1136,7 @@
       <div class="table-head-title">
         <div>
           <h2>专业列表</h2>
-          <div class="table-subtext" id="tableSubtext">默认展示全部专业，查询后按冲稳保优先排序。</div>
+          <div class="table-subtext" id="tableSubtext">默认展示全部专业,查询后按冲稳保优先排序。</div>
         </div>
         <div class="legend" aria-label="录取概率图例">
           <span class="legend-item reach">冲</span>
@@ -1155,7 +1159,7 @@
       <div class="empty-state" id="emptyState" hidden>
         <div class="empty-icon">◎</div>
         <div class="empty-title" id="emptyTitle">暂无匹配专业</div>
-        <p class="empty-desc" id="emptyDesc">请调整层次或科目筛选，或重新输入分数后查询。</p>
+        <p class="empty-desc" id="emptyDesc">请调整层次或科目筛选,或重新输入分数后查询。</p>
       </div>
     </section>
 
@@ -1163,7 +1167,7 @@
       <div class="recommend-panel-head">
         <div>
           <h3>AI 专业推荐</h3>
-          <p>结合当前分数、位次和冲稳保结果，为你生成更聚焦的专业建议。</p>
+          <p>结合当前分数、位次和冲稳保结果,为你生成更聚焦的专业建议。</p>
         </div>
       </div>
       <div class="recommend-list" id="recommendList"></div>
@@ -1171,7 +1175,7 @@
     </section>
 
     <p class="footnote" id="footnote">
-      说明：2025 等效分与 2026 预测分基于位次映射估算；艺术类、体育类等按综合分投档的专业，如缺少可用位次，将显示“—”。
+      说明:2025 等效分与 2026 预测分基于位次映射估算;艺术类、体育类等按综合分投档的专业,如缺少可用位次,将显示"-"。
     </p>
   </div>
 
@@ -1198,22 +1202,22 @@
       <div class="share-metrics">
         <div class="share-metric">
           <span>位次</span>
-          <strong id="shareRank">—</strong>
+          <strong id="shareRank">-</strong>
         </div>
         <div class="share-metric">
           <span>2025等效分</span>
-          <strong id="shareEquiv">—</strong>
+          <strong id="shareEquiv">-</strong>
         </div>
         <div class="share-metric">
           <span>本科线差</span>
-          <strong id="shareDiff">—</strong>
+          <strong id="shareDiff">-</strong>
         </div>
       </div>
       <div class="share-list">
-        <h3>推荐专业（冲2 / 稳2 / 保1）</h3>
+        <h3>推荐专业(冲2 / 稳2 / 保1)</h3>
         <div id="shareList"></div>
       </div>
-      <div class="share-foot">数据来源：燕京理工学院招生数据与河北省一分一段表。结果仅供志愿咨询参考，请结合招生章程与正式投档信息综合判断。</div>
+      <div class="share-foot">数据来源:燕京理工学院招生数据与河北省一分一段表。结果仅供志愿咨询参考,请结合招生章程与正式投档信息综合判断。</div>
     </div>
   </section>
 
@@ -1242,7 +1246,6 @@
       });
 
       var els = {
-        heroBadge: document.getElementById('heroBadge'),
         queryPanel: document.getElementById('queryPanel'),
         queryCard: document.getElementById('queryCard'),
         scoreInput: document.getElementById('scoreInput'),
@@ -1296,12 +1299,12 @@
       }
 
       function formatNumber(value) {
-        if (value === null || value === undefined || value === '' || Number.isNaN(Number(value))) return '—';
+        if (value === null || value === undefined || value === '' || Number.isNaN(Number(value))) return '-';
         return Number(value).toLocaleString('zh-CN');
       }
 
       function formatSigned(value) {
-        if (value === null || value === undefined || Number.isNaN(Number(value))) return '—';
+        if (value === null || value === undefined || Number.isNaN(Number(value))) return '-';
         var num = Number(value);
         return (num > 0 ? '+' : '') + num;
       }
@@ -1435,9 +1438,9 @@
       }
 
       function getMatchLabel(m) {
-        if (queryRank == null || !querySubject) return '—';
+        if (queryRank == null || !querySubject) return '-';
         var matchRank = getMatchRank(m, querySubject);
-        if (!matchRank || matchRank <= 0) return '—';
+        if (!matchRank || matchRank <= 0) return '-';
         var diff = matchRank - queryRank;
         var isBenke = m.level === '本科';
         var reachThreshold = isBenke ? -20000 : -5000;
@@ -1446,7 +1449,7 @@
         if (diff > safetyThreshold) return '保';
         if (diff > 0) return '稳';
         if (diff > reachThreshold) return '冲';
-        return '—';
+        return '-';
       }
 
       function getMatchOrder(label) {
@@ -1506,7 +1509,7 @@
       function animateValue(el, target) {
         if (!el) return;
         if (target == null || Number.isNaN(Number(target))) {
-          el.textContent = '—';
+          el.textContent = '-';
           return;
         }
         var finalValue = Number(target);
@@ -1527,9 +1530,9 @@
       function updateMetricsDisplay() {
         if (queryRank == null || !querySubject || queryScore == null) {
           els.queryCard.classList.remove('expanded');
-          els.rankValue.textContent = '—';
-          els.equivValue.textContent = '—';
-          els.lineDiffValue.textContent = '—';
+          els.rankValue.textContent = '-';
+          els.equivValue.textContent = '-';
+          els.lineDiffValue.textContent = '-';
           els.lineDiffNote.textContent = '用于自动切换本科/专科';
           metricCards.forEach(function (card) { card.classList.remove('show'); });
           return;
@@ -1542,9 +1545,9 @@
 
         els.queryCard.classList.add('expanded');
         animateValue(els.rankValue, queryRank);
-        els.equivValue.textContent = equivalent2025 != null ? String(equivalent2025) : '—';
+        els.equivValue.textContent = equivalent2025 != null ? String(equivalent2025) : '-';
         els.lineDiffValue.textContent = formatSigned(lineDiff);
-        els.lineDiffNote.textContent = line2026 == null ? '未获取到本科线' : ('2026' + getSubjectLabel(querySubject) + '本科线：' + line2026 + '分');
+        els.lineDiffNote.textContent = line2026 == null ? '未获取到本科线' : ('2026' + getSubjectLabel(querySubject) + '本科线:' + line2026 + '分');
         metricCards.forEach(function (card) {
           card.classList.remove('show');
           void card.offsetWidth;
@@ -1578,8 +1581,8 @@
 
       function buildDetailText(m) {
         if (m.desc && String(m.desc).trim()) return String(m.desc).trim();
-        if (m.subject === 'all') return '该专业为兼收或综合类专业，建议结合招生章程、选考要求和专业录取规则综合判断。';
-        return '暂未提供专业介绍，可结合学校最新招生简章或联系招生老师进一步咨询。';
+        if (m.subject === 'all') return '该专业为兼收或综合类专业,建议结合招生章程、选考要求和专业录取规则综合判断。';
+        return '暂未提供专业介绍,可结合学校最新招生简章或联系招生老师进一步咨询。';
       }
 
       function buildEmptyState() {
@@ -1588,19 +1591,19 @@
           if (provinceLine != null && queryScore < provinceLine) {
             return {
               title: '分数低于省控线',
-              desc: '分数低于省控线，建议咨询招生办。'
+              desc: '分数低于省控线,建议咨询招生办。'
             };
           }
           if (filterLevel === '专科') {
             return {
               title: '当前层次暂无专业',
-              desc: '当前数据中没有可展示的专科专业，建议切换到“全部”或“本科”查看。'
+              desc: '当前数据中没有可展示的专科专业,建议切换到"全部"或"本科"查看。'
             };
           }
         }
         return {
           title: '暂无数据',
-          desc: '当前筛选条件下暂无数据，请调整筛选条件后再试。'
+          desc: '当前筛选条件下暂无数据,请调整筛选条件后再试。'
         };
       }
 
@@ -1617,8 +1620,7 @@
           els.majorCount.style.transform = 'translateY(0)';
         }, 20);
 
-        els.heroBadge.textContent = (originalMajors.filter(function (m) { return m.level === '本科'; }).length) + ' 个本科专业';
-        els.tableSubtext.textContent = queryRank != null ? '已按“冲 → 稳 → 保 → 无数据”排序，同组内保持原始顺序。' : '默认展示全部专业，查询后按冲稳保优先排序。';
+        els.tableSubtext.textContent = queryRank != null ? '已按"冲 → 稳 → 保 → 无数据"排序，同组内保持原始顺序。' : '默认展示全部专业，查询后按冲稳保优先排序。';
 
         if (!list.length) {
           var emptyState = buildEmptyState();
@@ -1667,9 +1669,9 @@
                 '<span class="arrow" aria-hidden="true"></span>' +
               '</button>' +
             '</td>' +
-            '<td><span class="num ' + (scoreValue == null ? 'muted' : '') + '">' + (scoreValue == null ? '—' : scoreValue) + '</span></td>' +
-            '<td><span class="num ' + (rankValue == null ? 'muted' : '') + '">' + (rankValue == null ? '—' : formatNumber(rankValue)) + '</span></td>' +
-            '<td><span class="num ' + (predScore == null ? 'muted' : '') + '">' + (predScore == null ? '—' : predScore) + '</span></td>' +
+            '<td><span class="num ' + (scoreValue == null ? 'muted' : '') + '">' + (scoreValue == null ? '-' : scoreValue) + '</span></td>' +
+            '<td><span class="num ' + (rankValue == null ? 'muted' : '') + '">' + (rankValue == null ? '-' : formatNumber(rankValue)) + '</span></td>' +
+            '<td><span class="num ' + (predScore == null ? 'muted' : '') + '">' + (predScore == null ? '-' : predScore) + '</span></td>' +
             '<td><div class="prob-wrap"><span class="tag ' + displayMatchClass + '">' + label + '</span></div></td>';
 
           var detailRow = document.createElement('tr');
@@ -1679,10 +1681,10 @@
               '<div class="detail-inner">' +
                 '<div class="detail-content">' +
                   '<div class="detail-grid">' +
-                    '<div class="detail-item"><strong>招生层次</strong><span>' + escapeHtml(m.level || '—') + '</span></div>' +
+                    '<div class="detail-item"><strong>招生层次</strong><span>' + escapeHtml(m.level || '-') + '</span></div>' +
                     '<div class="detail-item"><strong>适用科类</strong><span>' + escapeHtml(getSubjectLabel(m.subject)) + '</span></div>' +
-                    '<div class="detail-item"><strong>2025投档分</strong><span>' + (scoreValue == null ? '—' : scoreValue + ' 分') + '</span></div>' +
-                    '<div class="detail-item"><strong>2025位次</strong><span>' + (rankValue == null ? '—' : formatNumber(rankValue)) + '</span></div>' +
+                    '<div class="detail-item"><strong>2025投档分</strong><span>' + (scoreValue == null ? '-' : scoreValue + ' 分') + '</span></div>' +
+                    '<div class="detail-item"><strong>2025位次</strong><span>' + (rankValue == null ? '-' : formatNumber(rankValue)) + '</span></div>' +
                   '</div>' +
                   '<div>' + escapeHtml(buildDetailText(m)) + '</div>' +
                 '</div>' +
@@ -1742,14 +1744,14 @@
         var diff = line != null && queryScore != null ? queryScore - line : null;
 
         els.shareScore.textContent = queryScore != null ? (getSubjectLabel(querySubject) + ' · ' + queryScore + '分') : '未查询';
-        els.shareRank.textContent = queryRank != null ? formatNumber(queryRank) : '—';
-        els.shareEquiv.textContent = queryRank != null && querySubject ? String(findScore(queryRank, rank2025, getCumIdx(querySubject)) || '—') : '—';
-        els.shareDiff.textContent = diff == null ? '—' : formatSigned(diff);
+        els.shareRank.textContent = queryRank != null ? formatNumber(queryRank) : '-';
+        els.shareEquiv.textContent = queryRank != null && querySubject ? String(findScore(queryRank, rank2025, getCumIdx(querySubject)) || '-') : '-';
+        els.shareDiff.textContent = diff == null ? '-' : formatSigned(diff);
 
         var selected = getRecommendedMajorsFromRendered();
 
         if (!selected.length) {
-          els.shareList.innerHTML = '<div class="share-item"><div class="share-item-copy"><div class="share-item-name">暂无数据</div><div class="share-item-meta">请先完成查询后再生成分享卡片。</div></div><span class="tag neutral">—</span></div>';
+          els.shareList.innerHTML = '<div class="share-item"><div class="share-item-copy"><div class="share-item-name">暂无数据</div><div class="share-item-meta">请先完成查询后再生成分享卡片。</div></div><span class="tag neutral">-</span></div>';
           return;
         }
 
@@ -1761,7 +1763,7 @@
           return '<div class="share-item">' +
             '<div class="share-item-copy">' +
               '<div class="share-item-name">' + escapeHtml(m.name || '未命名专业') + '</div>' +
-              '<div class="share-item-meta">投档分 ' + (scoreValue == null ? '—' : escapeHtml(String(scoreValue))) + ' · 位次 ' + (rankValue == null ? '—' : escapeHtml(formatNumber(rankValue))) + '</div>' +
+              '<div class="share-item-meta">投档分 ' + (scoreValue == null ? '-' : escapeHtml(String(scoreValue))) + ' · 位次 ' + (rankValue == null ? '-' : escapeHtml(formatNumber(rankValue))) + '</div>' +
             '</div>' +
             '<span class="tag ' + cls + '">' + label + '</span>' +
           '</div>';
@@ -1771,7 +1773,7 @@
       function getSummaryText() {
         var intro = '燕理智能招生查询结果';
         if (queryScore != null && querySubject) {
-          intro += '：' + getSubjectLabel(querySubject) + queryScore + '分';
+          intro += ':' + getSubjectLabel(querySubject) + queryScore + '分';
         }
         var parts = [intro];
         if (queryRank != null) parts.push('位次约 ' + formatNumber(queryRank));
@@ -1781,12 +1783,12 @@
 
         var top = getRecommendedMajorsFromRendered().map(function (m) {
           var label = m.__matchLabel || getMatchLabel(m);
-          return m.name + (label && label !== '—' ? '（' + label + '）' : '');
+          return m.name + (label && label !== '-' ? '(' + label + ')' : '');
         });
 
-        if (top.length) parts.push('推荐专业：' + top.join('、'));
+        if (top.length) parts.push('推荐专业:' + top.join('、'));
         parts.push('结果仅供志愿咨询参考。');
-        return parts.join('；');
+        return parts.join(';');
       }
 
       function copySummary() {
@@ -1814,7 +1816,7 @@
           document.execCommand('copy');
           showToast('咨询摘要已复制');
         } catch (err) {
-          showToast('复制失败，请手动复制');
+          showToast('复制失败,请手动复制');
         }
         document.body.removeChild(textarea);
       }
@@ -1841,17 +1843,17 @@
           var label = m.__matchLabel || getMatchLabel(m);
           var score = getMatchScore(m, querySubject || (filterSubject === 'ls' ? 'ls' : filterSubject === 'wl' ? 'wl' : null));
           var rank = getMatchRank(m, querySubject || (filterSubject === 'ls' ? 'ls' : filterSubject === 'wl' ? 'wl' : null));
-          if (score == null) score = m.score || m.phy_score || m.his_score || '—';
-          if (!rank || rank <= 0) rank = m.rank || m.phy_rank || m.his_rank || '—';
+          if (score == null) score = m.score || m.phy_score || m.his_score || '-';
+          if (!rank || rank <= 0) rank = m.rank || m.phy_rank || m.his_rank || '-';
           var pred = m.__predictedScore != null ? m.__predictedScore : getPredictedScore(m);
           html.push('<tr>' +
             '<td>' + escapeHtml(m.name || '') + '</td>' +
             '<td>' + escapeHtml(m.level || '') + '</td>' +
             '<td>' + escapeHtml(getSubjectLabel(m.subject)) + '</td>' +
             '<td>' + escapeHtml(String(score)) + '</td>' +
-            '<td>' + escapeHtml(rank === '—' ? '—' : formatNumber(rank)) + '</td>' +
-            '<td>' + escapeHtml(pred == null ? '—' : String(pred)) + '</td>' +
-            '<td>' + escapeHtml(label || '—') + '</td>' +
+            '<td>' + escapeHtml(rank === '-' ? '-' : formatNumber(rank)) + '</td>' +
+            '<td>' + escapeHtml(pred == null ? '-' : String(pred)) + '</td>' +
+            '<td>' + escapeHtml(label || '-') + '</td>' +
           '</tr>');
         });
 
@@ -1957,7 +1959,7 @@
           showToast('分享卡片已生成');
         }).catch(function () {
           fallbackCopy(getSummaryText());
-          showToast('截图失败，已自动复制文本摘要');
+          showToast('截图失败,已自动复制文本摘要');
         });
       }
 
@@ -1983,7 +1985,7 @@
       function renderRecommendPanel(list) {
         latestRecommendations = Array.isArray(list) ? list.slice() : [];
         if (!latestRecommendations.length) {
-          els.recommendList.innerHTML = '<div class="recommend-item"><div class="recommend-item-top"><span class="recommend-item-name">暂无推荐</span><span class="tag neutral">提示</span></div><p class="recommend-item-reason">当前没有拿到可展示的推荐结果，请稍后再试。</p></div>';
+          els.recommendList.innerHTML = '<div class="recommend-item"><div class="recommend-item-top"><span class="recommend-item-name">暂无推荐</span><span class="tag neutral">提示</span></div><p class="recommend-item-reason">当前没有拿到可展示的推荐结果,请稍后再试。</p></div>';
         } else {
           els.recommendList.innerHTML = latestRecommendations.map(function (item) {
             var name = item && (item.name || item.major || item.profession || item.title) ? (item.name || item.major || item.profession || item.title) : '未命名专业';
@@ -2030,7 +2032,7 @@
         }
         var provinceLine = getProvinceControlLine();
         if (provinceLine != null && queryScore != null && queryScore < provinceLine) {
-          showToast('分数低于省控线，建议咨询招生办');
+          showToast('分数低于省控线,建议咨询招生办');
           return;
         }
         var selected = getRecommendedMajorsFromRendered();
@@ -2130,7 +2132,7 @@
 
         var provinceLine = getProvinceControlLine();
         if (provinceLine != null && score < provinceLine) {
-          showToast('分数低于省控线，建议咨询招生办');
+          showToast('分数低于省控线,建议咨询招生办');
         }
 
         var cumIdx = getCumIdx(querySubject);
@@ -2229,7 +2231,7 @@
         if (!originalMajors.length || !Object.keys(rank2025).length || !Object.keys(rank2026).length) {
           els.emptyState.hidden = false;
           els.emptyTitle.textContent = '数据加载失败';
-          els.emptyDesc.textContent = '数据加载失败，请检查 data.js。';
+          els.emptyDesc.textContent = '数据加载失败,请检查 data.js。';
           showToast('数据加载失败');
           return;
         }
