@@ -1786,6 +1786,12 @@
 
           setTyping(false);
           appendMessage('ai', answer);
+          // Log chat
+          fetch('/api/log/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ source: 'yanli', question: question, answer: answer })
+          }).catch(function(){});
         } catch (error) {
           setTyping(false);
           appendMessage('ai', '当前暂时无法连接问答服务，请稍后再试。', { isError: true });
@@ -1820,6 +1826,14 @@
       updateSendButtonState();
       setupFabTip();
     })();
+
+    // Page view log
+    fetch('/api/log/view', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ path: '/helper' })
+    }).catch(function(){});
+
   </script>
 
   
