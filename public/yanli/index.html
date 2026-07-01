@@ -1476,7 +1476,138 @@
   </div><div class="privacy">您的提问仅用于本次回答，不会存储</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-  <script>
+  </main>
+
+
+
+
+  <div class="fab-tip" id="fabTip" role="status" aria-live="polite">有什么想问的？</div>
+
+
+
+  <button class="chat-fab" id="chatFab" type="button" aria-label="打开燕理小智聊天窗口">
+
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+
+      <rect x="5" y="5" width="14" height="11" rx="4"></rect>
+
+      <path d="M8 16v3l3-3"></path>
+
+      <path d="M9 10h.01"></path>
+
+      <path d="M15 10h.01"></path>
+
+      <path d="M9 7V4"></path>
+
+      <path d="M15 7V4"></path>
+
+    </svg>
+
+  </button>
+
+
+
+  <div class="chat-sheet" id="chatSheet" aria-hidden="true">
+
+    <section class="chat-panel" role="dialog" aria-modal="true" aria-labelledby="chatTitle">
+
+      <div class="chat-handle-wrap" id="chatDragArea">
+
+        <div class="chat-handle" aria-hidden="true"></div>
+
+      </div>
+
+      <div class="chat-head">
+
+        <div class="chat-brand">
+
+          <div class="chat-avatar" aria-hidden="true">
+
+            <svg viewBox="0 0 24 24">
+
+              <rect x="5" y="5" width="14" height="11" rx="4"></rect>
+
+              <path d="M8 16v3l3-3"></path>
+
+              <path d="M9 10h.01"></path>
+
+              <path d="M15 10h.01"></path>
+
+              <path d="M9 7V4"></path>
+
+              <path d="M15 7V4"></path>
+
+            </svg>
+
+          </div>
+
+          <div>
+
+            <strong id="chatTitle">燕理小智</strong>
+
+            <span>校园问题可以直接问我</span>
+
+          </div>
+
+        </div>
+
+        <button class="chat-close" id="chatClose" type="button" aria-label="关闭聊天窗口">
+
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12"></path><path d="M18 6 6 18"></path></svg>
+
+        </button>
+
+      </div>
+
+      <div class="chat-body" id="chatBody">
+
+        <div class="message-list" id="messageList">
+
+          <div class="message ai">
+
+            <div class="message-badge" aria-hidden="true">
+
+              <svg viewBox="0 0 24 24"><path d="M12 3v3"></path><rect x="5" y="6" width="14" height="11" rx="4"></rect><path d="M8 11h.01"></path><path d="M16 11h.01"></path><path d="M9 15h6"></path></svg>
+
+            </div>
+
+            <div class="message-bubble">你好，我是燕理小智。你可以问我报到、住宿、课程或校园服务相关问题。</div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <form class="chat-form" id="chatForm">
+
+        <div class="quick-question-row" id="quickQuestionRow">
+
+          <button class="quick-question-btn" type="button" data-question="报到流程">报到流程</button>
+
+          <button class="quick-question-btn" type="button" data-question="宿舍情况">宿舍情况</button>
+
+          <button class="quick-question-btn" type="button" data-question="校园卡">校园卡</button>
+
+        </div>
+
+        <div class="chat-input-row">
+
+          <textarea class="chat-input" id="chatInput" rows="1" placeholder="输入你的问题..." maxlength="500"></textarea>
+
+          <button class="send-btn" id="sendBtn" type="submit" disabled>发送</button>
+
+        </div>
+
+        <div class="chat-meta">您的提问仅用于本次回答，不会存储</div>
+
+      </form>
+
+    </section>
+
+  </div>
+<p class="privacy">您的提问仅用于本次回答，不会存储</p>
+<script>
     (function () {
       var categories = Array.prototype.slice.call(document.querySelectorAll('[data-category]'));
       var shortcutCards = Array.prototype.slice.call(document.querySelectorAll('.shortcut-card'));
