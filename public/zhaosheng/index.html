@@ -1548,8 +1548,18 @@
         if (queryRank == null || !querySubject) return null;
         var matchRank = getMatchRank(m, querySubject);
         if (!matchRank || matchRank <= 0) return null;
-        var cumIdx = getCumIdx(querySubject);
-        return findScore(matchRank, rank2026, cumIdx);
+        // Use the correct cumIdx based on which rank was actually available
+        var actualRank = null;
+        var actualCumIdx = 1;
+        if (querySubject === 'wl') {
+          if (m.phy_rank && m.phy_rank > 0) { actualRank = m.phy_rank; actualCumIdx = 1; }
+          else if (m.his_rank && m.his_rank > 0) { actualRank = m.his_rank; actualCumIdx = 3; }
+        } else if (querySubject === 'ls') {
+          if (m.his_rank && m.his_rank > 0) { actualRank = m.his_rank; actualCumIdx = 3; }
+          else if (m.phy_rank && m.phy_rank > 0) { actualRank = m.phy_rank; actualCumIdx = 1; }
+        }
+        if (!actualRank || actualRank <= 0) return null;
+        return findScore(actualRank, rank2026, actualCumIdx);
       }
 
       function truncate(text, length) {
