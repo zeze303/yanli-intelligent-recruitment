@@ -1418,61 +1418,130 @@
       </div>
 
     <div class="fab-tip" id="fabTip" role="status" aria-live="polite">有什么想问的？</div>
-  <button class="chat-fab" id="chatFab" type="button" aria-label="打开AI问答">
-    <svg viewBox="0 0 48 48" width="28" height="28" fill="none">
-      <rect x="12" y="14" width="24" height="20" rx="8" stroke="#0a1628" stroke-width="2.5"/>
-      <circle cx="19" cy="22" r="2" fill="#0a1628"/>
-      <circle cx="29" cy="22" r="2" fill="#0a1628"/>
-      <rect x="19" y="27" width="10" height="2" rx="1" fill="#0a1628"/>
-      <line x1="18" y1="14" x2="18" y2="10" stroke="#0a1628" stroke-width="2"/>
-      <line x1="30" y1="14" x2="30" y2="10" stroke="#0a1628" stroke-width="2"/>
+
+
+
+  <button class="chat-fab" id="chatFab" type="button" aria-label="打开燕理小智聊天窗口">
+
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+
+      <rect x="5" y="5" width="14" height="11" rx="4"></rect>
+
+      <path d="M8 16v3l3-3"></path>
+
+      <path d="M9 10h.01"></path>
+
+      <path d="M15 10h.01"></path>
+
+      <path d="M9 7V4"></path>
+
+      <path d="M15 7V4"></path>
+
     </svg>
+
   </button>
 
-      <div class="chat-sheet" id="chatSheet" aria-hidden="true">
-    <div class="chat-panel">
+
+
+  <div class="chat-sheet" id="chatSheet" aria-hidden="true">
+
+    <section class="chat-panel" role="dialog" aria-modal="true" aria-labelledby="chatTitle">
+
+      <div class="chat-handle-wrap" id="chatDragArea">
+
+        <div class="chat-handle" aria-hidden="true"></div>
+
+      </div>
+
       <div class="chat-head">
+
         <div class="chat-brand">
-          <div class="chat-avatar">
-            <svg viewBox="0 0 48 48" width="24" height="24" fill="none">
-              <rect x="8" y="10" width="32" height="26" rx="10" stroke="#c8a44e" stroke-width="2"/>
-              <circle cx="16" cy="20" r="2.5" fill="#c8a44e"/>
-              <circle cx="32" cy="20" r="2.5" fill="#c8a44e"/>
-              <rect x="16" y="28" width="16" height="3" rx="1.5" fill="#c8a44e"/>
-              <line x1="14" y1="10" x2="8" y2="4" stroke="#c8a44e" stroke-width="2" stroke-linecap="round"/>
-              <line x1="34" y1="10" x2="40" y2="4" stroke="#c8a44e" stroke-width="2" stroke-linecap="round"/>
+
+          <div class="chat-avatar" aria-hidden="true">
+
+            <svg viewBox="0 0 24 24">
+
+              <rect x="5" y="5" width="14" height="11" rx="4"></rect>
+
+              <path d="M8 16v3l3-3"></path>
+
+              <path d="M9 10h.01"></path>
+
+              <path d="M15 10h.01"></path>
+
+              <path d="M9 7V4"></path>
+
+              <path d="M15 7V4"></path>
+
             </svg>
+
           </div>
+
           <div>
-            <div style="font-size:16px;font-weight:700">燕理小智</div>
-            <div style="font-size:12px;opacity:.7">AI 智能问答</div>
+
+            <strong id="chatTitle">燕理小智</strong>
+
+            <span>校园问题可以直接问我</span>
+
           </div>
+
         </div>
-        <button class="chat-close" id="chatClose" type="button" aria-label="关闭聊天">
-          <svg viewBox="0 0 24 24" width="20" height="20"><path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+
+        <button class="chat-close" id="chatClose" type="button" aria-label="关闭聊天窗口">
+
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12"></path><path d="M18 6 6 18"></path></svg>
+
         </button>
+
       </div>
-      <div class="chat-body" id="chatMessages">
-        <div class="message-bubble bot">
-          <div class="msg-text">你好！我是燕理小智，有什么可以帮助你的？</div>
+
+      <div class="chat-body" id="chatBody">
+
+        <div class="message-list" id="messageList">
+
+          <div class="message ai">
+
+            <div class="message-badge" aria-hidden="true">
+
+              <svg viewBox="0 0 24 24"><path d="M12 3v3"></path><rect x="5" y="6" width="14" height="11" rx="4"></rect><path d="M8 11h.01"></path><path d="M16 11h.01"></path><path d="M9 15h6"></path></svg>
+
+            </div>
+
+            <div class="message-bubble">你好，我是燕理小智。你可以问我报到、住宿、课程或校园服务相关问题。</div>
+
+          </div>
+
         </div>
+
       </div>
-      <div class="chat-handle" id="chatDragArea"></div>
+
       <form class="chat-form" id="chatForm">
-        <div class="quick-question-row" id="quickQuestions">
-          <button type="button" class="quick-question-btn" data-question="报到流程">报到流程</button>
-          <button type="button" class="quick-question-btn" data-question="宿舍情况">宿舍情况</button>
-          <button type="button" class="quick-question-btn" data-question="校园卡">校园卡</button>
+
+        <div class="quick-question-row" id="quickQuestionRow">
+
+          <button class="quick-question-btn" type="button" data-question="报到流程">报到流程</button>
+
+          <button class="quick-question-btn" type="button" data-question="宿舍情况">宿舍情况</button>
+
+          <button class="quick-question-btn" type="button" data-question="校园卡">校园卡</button>
+
         </div>
-        <div style="display:flex;gap:10px">
-          <textarea class="chat-input" id="chatInput" rows="1" placeholder="输入你的问题..." maxlength="500" style="flex:1"></textarea>
-          <button class="chat-send" id="chatSend" type="button" aria-label="发送" style="flex:none;width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#d3b15c,var(--accent));display:grid;place-items:center;border:0;cursor:pointer">
-            <svg viewBox="0 0 24 24" width="18" height="18"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="#0a1628" stroke-width="2" stroke-linejoin="round"/></svg>
-          </button>
+
+        <div class="chat-input-row">
+
+          <textarea class="chat-input" id="chatInput" rows="1" placeholder="输入你的问题..." maxlength="500"></textarea>
+
+          <button class="send-btn" id="sendBtn" type="submit" disabled>发送</button>
+
         </div>
-        <div class="chat-meta">燕理小智 · 数据由 DeepSeek AI 生成</div>
+
+        <div class="chat-meta">您的提问仅用于本次回答，不会存储</div>
+
       </form>
-    </div>
+
+    </section>
+
+  </div>
   </div><div class="privacy">您的提问仅用于本次回答，不会存储</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
