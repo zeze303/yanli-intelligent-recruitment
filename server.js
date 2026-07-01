@@ -1,12 +1,17 @@
 const express = require('express');
 const path = require('path');
 const rateLimit = require('express-rate-limit');
+const { createClient } = require('@supabase/supabase-js');
+const crypto = require('crypto');
 const { MAJORS, RANK_2025, RANK_2026, BATCH_LINE } = require('./public/zhaosheng/data.js');
 const { FAQ_DATA } = require('./public/yanli/faq-data.js');
 
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 const DEEPSEEK_KEY = process.env.DEEPSEEK_KEY || '';
+const SUPABASE_URL = process.env.SUPABASE_URL || '';
+const SUPABASE_KEY = process.env.SUPABASE_KEY || '';
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'admin123';
 const CHAT_MAX_LENGTH = 500;
 const DEEPSEEK_TIMEOUT_MS = 15_000;
 const DEEPSEEK_CHAT_MODEL = 'deepseek-v4-flash';
@@ -14,18 +19,53 @@ const SENSITIVE_KEYWORDS = ['政治','暴力','色情','违法','枪支','炸弹
 
 const publicDir = path.join(__dirname, 'public');
 
+// Supabase
+let supabase = null;
+if (SUPABASE_URL && SUPABASE_KEY) {
+  try {
+    supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    console.log('Supabase connected');
+  } catch (e) {
+    console.error('Supabase init failed:', e.message);
+  }
+} else {
+  console.log('Supabase not configured (SUPABASE_URL/KEY missing)');
+}
+
 // Rate limit
 const chatLimiter = rateLimit({
   windowMs: 60 * 1000, max: 20,
   message: { error: '请求太频繁，请稍后再试' }
 });
 
+const adminLimiter = rateLimit({
+  windowMs: 60 * 1000, max: 30,
+  message: { error: '请求太频繁' }
+});
+
 app.disable('x-powered-by');
 app.use(express.json({ limit: '4kb' }));
 
-// Static: /helper first, then /
+// Static: /helper first, then /admin, then /
 app.use('/helper', express.static(path.join(publicDir, 'yanli')));
+app.use('/admin', express.static(path.join(publicDir, 'admin')));
 app.use('/', express.static(path.join(publicDir, 'zhaosheng')));
+
+// ===== Helper: get client IP =====
+function getClientIP(req) {
+  const forwarded = req.headers['x-forwarded-for'];
+  if (forwarded) return forwarded.split(',')[0].trim();
+  return req.ip || req.connection.remoteAddress || '0.0.0.0';
+}
+
+// ===== Admin auth: simple token =====
+function adminAuth(req, res, next) {
+  const token = req.headers['x-admin-token'];
+  if (!token || token !== ADMIN_PASSWORD) {
+    return res.status(401).json({ error: '未授权' });
+  }
+  next();
+}
 
 function containsSensitiveKeyword(text) {
   const content = String(text || '').toLowerCase();
@@ -165,6 +205,142 @@ app.post('/api/chat', chatLimiter, async function(req, res) {
   } catch (err) {
     console.error('[chat error]', err && err.message ? err.message : err);
     return res.status(500).json({ error: '服务器内部错误' });
+  }
+});
+
+// ===== POST /api/log/view =====
+app.post('/api/log/view', adminLimiter, async function(req, res) {
+  if (!supabase) return res.json({ ok: true });
+  try {
+    const ip = getClientIP(req);
+    const { path: pagePath } = req.body || {};
+    if (!pagePath) return res.status(400).json({ error: 'path 必填' });
+    await supabase.from('page_views').insert({
+      path: pagePath,
+      ip: ip,
+      user_agent: (req.headers['user-agent'] || '').slice(0, 300),
+      referer: (req.headers['referer'] || '').slice(0, 300)
+    });
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('[log/view error]', err && err.message ? err.message : err);
+    res.json({ ok: true });
+  }
+});
+
+// ===== POST /api/log/chat =====
+app.post('/api/log/chat', adminLimiter, async function(req, res) {
+  if (!supabase) return res.json({ ok: true });
+  try {
+    const ip = getClientIP(req);
+    const { source, question, answer } = req.body || {};
+    if (!source || !['yanli', 'admissions'].includes(source)) return res.status(400).json({ error: '无效 source' });
+    if (!question || !answer) return res.status(400).json({ error: 'question 和 answer 必填' });
+    await supabase.from('chat_logs').insert({
+      source: source,
+      question: String(question).slice(0, 1000),
+      answer: String(answer).slice(0, 4000),
+      ip: ip
+    });
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('[log/chat error]', err && err.message ? err.message : err);
+    res.json({ ok: true });
+  }
+});
+
+// ===== POST /api/admin/login =====
+app.post('/api/admin/login', adminLimiter, function(req, res) {
+  const { password } = req.body || {};
+  if (password === ADMIN_PASSWORD) {
+    res.json({ ok: true, token: ADMIN_PASSWORD });
+  } else {
+    res.status(401).json({ error: '密码错误' });
+  }
+});
+
+// ===== GET /api/admin/stats =====
+app.get('/api/admin/stats', adminLimiter, adminAuth, async function(req, res) {
+  if (!supabase) return res.json({ error: '数据库未配置' });
+  try {
+    const days = parseInt(req.query.days) || 7;
+    const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+
+    // Total PV
+    const { count: totalPv, error: e1 } = await supabase
+      .from('page_views').select('*', { count: 'exact', head: true });
+
+    // UV (distinct IPs)
+    const { data: uvData, error: e2 } = await supabase
+      .from('page_views').select('ip');
+    const uniqueIps = new Set((uvData || []).map(r => r.ip));
+    const totalUv = uniqueIps.size;
+
+    // Daily stats for chart
+    const { data: dailyViews, error: e3 } = await supabase
+      .from('page_views').select('created_at, ip')
+      .gte('created_at', since).order('created_at', { ascending: true });
+
+    const dailyMap = {};
+    const uvDailyMap = {};
+    (dailyViews || []).forEach(function(row) {
+      const day = row.created_at.slice(0, 10);
+      if (!dailyMap[day]) { dailyMap[day] = 0; uvDailyMap[day] = new Set(); }
+      dailyMap[day]++;
+      uvDailyMap[day].add(row.ip);
+    });
+
+    const dailyStats = Object.keys(dailyMap).sort().map(function(day) {
+      return { date: day, pv: dailyMap[day], uv: uvDailyMap[day].size };
+    });
+
+    // Chat stats
+    const { count: totalChats, error: e4 } = await supabase
+      .from('chat_logs').select('*', { count: 'exact', head: true });
+
+    const { data: recentChats, error: e5 } = await supabase
+      .from('chat_logs').select('created_at, source, question, answer')
+      .order('created_at', { ascending: false }).limit(20);
+
+    // Hot questions
+    const { data: allQuestions, error: e6 } = await supabase
+      .from('chat_logs').select('question, created_at')
+      .gte('created_at', since);
+
+    const qMap = {};
+    (allQuestions || []).forEach(function(row) {
+      const q = row.question.slice(0, 50);
+      qMap[q] = (qMap[q] || 0) + 1;
+    });
+    const hotQuestions = Object.entries(qMap)
+      .sort(function(a, b) { return b[1] - a[1]; })
+      .slice(0, 10)
+      .map(function(item) { return { question: item[0], count: item[1] }; });
+
+    // Page path breakdown
+    const { data: pathData, error: e7 } = await supabase
+      .from('page_views').select('path');
+    const pathMap = {};
+    (pathData || []).forEach(function(row) {
+      const p = row.path || '/';
+      pathMap[p] = (pathMap[p] || 0) + 1;
+    });
+    const pageBreakdown = Object.entries(pathMap)
+      .sort(function(a, b) { return b[1] - a[1]; })
+      .map(function(item) { return { path: item[0], count: item[1] }; });
+
+    res.json({
+      totalPv: totalPv || 0,
+      totalUv: totalUv,
+      totalChats: totalChats || 0,
+      dailyStats: dailyStats,
+      hotQuestions: hotQuestions,
+      recentChats: (recentChats || []).slice(0, 10),
+      pageBreakdown: pageBreakdown
+    });
+  } catch (err) {
+    console.error('[admin/stats error]', err && err.message ? err.message : err);
+    res.status(500).json({ error: '获取统计失败' });
   }
 });
 
