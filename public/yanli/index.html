@@ -1825,36 +1825,7 @@
     })();
   </script>
 
-  // Populate FAQ answers from FAQ_DATA
-  (function() {
-    if (typeof FAQ_DATA === 'undefined') return;
-    var faqMap = {};
-    FAQ_DATA.forEach(function(f) { faqMap[f.question] = f.answer; });
-    var questions = document.querySelectorAll('.faq-question');
-    questions.forEach(function(btn) {
-      var textEl = btn.querySelector('.faq-label');
-      if (!textEl) {
-        // Try getting text from button directly
-        var label = btn.cloneNode(true);
-        var arrows = label.querySelectorAll('.faq-arrow');
-        arrows.forEach(function(a) { a.remove(); });
-        var q = label.textContent.trim();
-        var ans = faqMap[q];
-        if (ans) {
-          var p = btn.parentElement.querySelector('.faq-answer p');
-          if (p) p.textContent = ans;
-        }
-        return;
-      }
-      var q = textEl.textContent.trim();
-      var ans = faqMap[q];
-      if (ans) {
-        var p = btn.parentElement.querySelector('.faq-answer p');
-        if (p) p.textContent = ans;
-      }
-    });
-  })();
-</script>
+  
 
 </body>
 </html>
