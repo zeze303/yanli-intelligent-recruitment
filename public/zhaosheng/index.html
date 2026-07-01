@@ -2188,6 +2188,13 @@
             throw new Error('empty');
           }
           renderRecommendPanel(list);
+          // Log chat
+          var recText = Array.isArray(list) ? list.map(function(r){return r.name + ':' + (r.reason||'').slice(0,80)}).join('; ') : '';
+          fetch('/api/log/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ source: 'admissions', question: queryScore + '分/' + queryRank + '位(' + querySubject + ')', answer: recText })
+          }).catch(function(){});
           els.recommendPanel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }).catch(function () {
           showToast('网络异常');
@@ -2339,6 +2346,14 @@
       }
 
       init();
+
+      // Page view log
+      fetch('/api/log/view', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ path: '/' })
+      }).catch(function(){});
+
     })();
   </script>
 </body>
