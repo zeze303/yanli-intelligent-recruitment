@@ -77,7 +77,7 @@ async function callDeepSeek(messages) {
     const response = await fetch('https://api.deepseek.com/chat/completions', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${DEEPSEEK_KEY}` },
-      body: JSON.stringify({ model: DEEPSEEK_CHAT_MODEL, messages, temperature: 0.5 }),
+      body: JSON.stringify({ model: DEEPSEEK_CHAT_MODEL, messages, temperature: 0.5, web_search: true }),
       signal: controller.signal
     });
     if (!response.ok) {
