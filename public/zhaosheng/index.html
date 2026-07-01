@@ -36,6 +36,78 @@
       --safe-bottom: env(safe-area-inset-bottom, 0px);
     }
 
+    .topnav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 200;
+      background: rgba(10,22,40,0.96);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(200,164,78,0.15);
+    }
+    .topnav-inner {
+      max-width: 960px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      height: 48px;
+    }
+    .topnav-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .topnav-logo {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 1.5px solid #c8a44e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: serif;
+      font-size: 13px;
+      font-weight: 700;
+      color: #c8a44e;
+      flex-shrink: 0;
+    }
+    .topnav-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #e8eaf0;
+      white-space: nowrap;
+    }
+    .topnav-badge {
+      font-size: 10px;
+      color: #6b8aaa;
+      border: 1px solid rgba(200,164,78,0.2);
+      border-radius: 4px;
+      padding: 1px 6px;
+      white-space: nowrap;
+    }
+    .topnav-links {
+      display: flex;
+      gap: 4px;
+    }
+    .topnav-link {
+      padding: 6px 14px;
+      border-radius: 6px;
+      font-size: 12px;
+      color: #8899b4;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .topnav-link:hover {
+      color: #e8eaf0;
+      background: rgba(255,255,255,0.06);
+    }
+    .topnav-link.active {
+      color: #c8a44e;
+      background: rgba(200,164,78,0.1);
+      font-weight: 600;
+    }
+
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
@@ -54,7 +126,7 @@
     .page {
       width: min(100%, 760px);
       margin: 0 auto;
-      padding: 16px 12px calc(100px + var(--safe-bottom));
+      padding: 64px 12px calc(100px + var(--safe-bottom));
     }
 
     .hero {
@@ -1056,6 +1128,20 @@
   </style>
 </head>
 <body>
+  <header class="topnav">
+    <div class="topnav-inner">
+      <a class="topnav-brand" href="/">
+        <span class="topnav-logo">Y</span>
+        <span class="topnav-title">燕京理工学院</span>
+        <span class="topnav-badge">招生助手</span>
+      </a>
+      <nav class="topnav-links">
+        <a class="topnav-link active" href="/">查分</a>
+        <a class="topnav-link" href="/helper">校园助手</a>
+      </nav>
+    </div>
+  </header>
+
   <div class="page">
     <section class="hero" aria-label="页面介绍">
       <div class="hero-top">
@@ -1064,7 +1150,6 @@
           <h1>燕理智能招生工具</h1>
           <p>输入分数与选科,即可查看位次、2025 等效分、本科线差,并按冲稳保筛选更适合的专业方向。</p>
         </div>
-        <a class="hero-link" href="/helper">校园生活 →</a>
       </div>
     </section>
 
