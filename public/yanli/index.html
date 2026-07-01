@@ -1466,7 +1466,7 @@
         </div>
         <div style="display:flex;gap:10px">
           <textarea class="chat-input" id="chatInput" rows="1" placeholder="输入你的问题..." maxlength="500" style="flex:1"></textarea>
-          <button class="chat-send" id="chatSend" type="submit" aria-label="发送" style="flex:none;width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#d3b15c,var(--accent));display:grid;place-items:center;border:0;cursor:pointer">
+          <button class="chat-send" id="chatSend" type="button" aria-label="发送" style="flex:none;width:46px;height:46px;border-radius:14px;background:linear-gradient(135deg,#d3b15c,var(--accent));display:grid;place-items:center;border:0;cursor:pointer">
             <svg viewBox="0 0 24 24" width="18" height="18"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke="#0a1628" stroke-width="2" stroke-linejoin="round"/></svg>
           </button>
         </div>
@@ -1774,6 +1774,7 @@
         }
       }
 
+      chatSend.addEventListener('click', function () { chatForm.requestSubmit(); });
       chatForm.addEventListener('submit', function (event) {
         event.preventDefault();
         if (isSending) {
