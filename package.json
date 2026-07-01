@@ -1,0 +1,16 @@
+{
+  "name": "yanli-intelligent-recruitment",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build:data": "node build/build-data.js",
+    "build:embeddings": "node build/build-embeddings.js",
+    "build": "npm run build:data && npm run build:embeddings",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.0",
+    "express-rate-limit": "^7.0.0",
+    "xlsx": "^0.18.5"
+  }
+}

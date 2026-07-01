@@ -1,0 +1,1761 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="color-scheme" content="light" />
+  <title>燕理小智 - 校园助手</title>
+  <style>
+    :root {
+      --primary: #0a1628;
+      --primary-light: #152d50;
+      --accent: #c8a44e;
+      --reach-color: #e74c3c;
+      --match-color: #3498db;
+      --safety-color: #27ae60;
+      --bg: #f8f9fb;
+      --card: #ffffff;
+      --text: #1a1a2e;
+      --text-secondary: #64748b;
+      --text-muted: #94a3b8;
+      --border: #e5e7eb;
+      --shadow-lg: 0 18px 40px rgba(10, 22, 40, 0.12);
+      --shadow-md: 0 12px 28px rgba(10, 22, 40, 0.08);
+      --shadow-sm: 0 6px 16px rgba(10, 22, 40, 0.06);
+      --radius-card: 18px;
+      --radius-panel: 14px;
+      --radius-chip: 8px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-top: env(safe-area-inset-top, 0px);
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      font-family: "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, rgba(200, 164, 78, 0.14), transparent 28%),
+        linear-gradient(180deg, #eef2f7 0%, var(--bg) 220px, var(--bg) 100%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    input,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      background: none;
+      padding: 0;
+    }
+
+    .page {
+      width: min(100%, 960px);
+      margin: 0 auto;
+      padding: calc(14px + var(--safe-top)) 12px calc(96px + var(--safe-bottom));
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px;
+      background: linear-gradient(180deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: #fff;
+      border-radius: 20px;
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .topbar::after {
+      content: "";
+      position: absolute;
+      right: -32px;
+      top: -28px;
+      width: 140px;
+      height: 140px;
+      border-radius: 999px;
+      background: radial-gradient(circle, rgba(200, 164, 78, 0.28), rgba(200, 164, 78, 0));
+      pointer-events: none;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .brand-mark {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      flex: none;
+    }
+
+    .brand-copy {
+      min-width: 0;
+    }
+
+    .brand-copy h1 {
+      margin: 0;
+      font-size: 22px;
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .brand-copy p {
+      margin: 4px 0 0;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.72);
+      line-height: 1.4;
+    }
+
+    .top-link {
+      position: relative;
+      z-index: 1;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      align-self: flex-start;
+      padding: 10px 12px;
+      border-radius: 999px;
+      color: var(--accent);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: transform 160ms ease, background 200ms ease;
+    }
+
+    .top-link:active {
+      transform: scale(0.97);
+    }
+
+    .section {
+      margin-top: 14px;
+      background: rgba(255, 255, 255, 0.72);
+      border: 1px solid rgba(229, 231, 235, 0.8);
+      border-radius: 20px;
+      box-shadow: var(--shadow-sm);
+      backdrop-filter: blur(10px);
+      overflow: hidden;
+    }
+
+    .section-head {
+      padding: 18px 18px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: 12px;
+    }
+
+    .section-head h2 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .section-head p {
+      margin: 6px 0 0;
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+    }
+
+    .section-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      white-space: nowrap;
+    }
+
+    .shortcut-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+      padding: 0 14px 16px;
+    }
+
+    .shortcut-card {
+      appearance: none;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+      min-height: 118px;
+      padding: 14px 12px;
+      border-radius: 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.05);
+      color: var(--text);
+      text-align: left;
+      transform: translateY(12px);
+      opacity: 0;
+      animation: cardIn 420ms var(--ease-out) forwards;
+      transition: transform 120ms ease, box-shadow 200ms ease, border-color 200ms ease;
+    }
+
+    .shortcut-card:active {
+      transform: scale(0.95);
+    }
+
+    .shortcut-card:hover {
+      box-shadow: 0 16px 30px rgba(15, 23, 42, 0.08);
+      border-color: rgba(200, 164, 78, 0.35);
+    }
+
+    .shortcut-card[data-delay="0"] { animation-delay: 0ms; }
+    .shortcut-card[data-delay="1"] { animation-delay: 60ms; }
+    .shortcut-card[data-delay="2"] { animation-delay: 120ms; }
+    .shortcut-card[data-delay="3"] { animation-delay: 180ms; }
+    .shortcut-card[data-delay="4"] { animation-delay: 240ms; }
+    .shortcut-card[data-delay="5"] { animation-delay: 300ms; }
+    .shortcut-card[data-delay="6"] { animation-delay: 360ms; }
+    .shortcut-card[data-delay="7"] { animation-delay: 420ms; }
+
+    .shortcut-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      flex: none;
+    }
+
+    .shortcut-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .shortcut-copy {
+      min-width: 0;
+    }
+
+    .shortcut-title {
+      display: block;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.3;
+    }
+
+    .shortcut-desc {
+      display: block;
+      margin-top: 6px;
+      font-size: 12px;
+      line-height: 1.4;
+      color: var(--text-secondary);
+    }
+
+    .faq-wrap {
+      padding: 0 14px 14px;
+    }
+
+    .faq-category {
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--card);
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.04);
+    }
+
+    .faq-category + .faq-category {
+      margin-top: 10px;
+    }
+
+    .faq-category-button {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 16px;
+      background: transparent;
+      text-align: left;
+    }
+
+    .faq-category-title {
+      min-width: 0;
+    }
+
+    .faq-category-title strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.3;
+    }
+
+    .faq-category-title span {
+      display: block;
+      margin-top: 5px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    .faq-chevron {
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      color: var(--text-secondary);
+      background: #f8fafc;
+      flex: none;
+      transition: transform 300ms ease, color 200ms ease, background 200ms ease;
+    }
+
+    .faq-chevron svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .faq-category.open .faq-chevron {
+      transform: rotate(180deg);
+      color: var(--accent);
+      background: rgba(200, 164, 78, 0.12);
+    }
+
+    .faq-category-panel {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 360ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .faq-category.open .faq-category-panel {
+      grid-template-rows: 1fr;
+    }
+
+    .faq-category-inner {
+      overflow: hidden;
+      border-top: 1px solid transparent;
+      transition: border-color 200ms ease;
+    }
+
+    .faq-category.open .faq-category-inner {
+      border-top-color: var(--border);
+    }
+
+    .faq-question {
+      border-bottom: 1px solid #f1f5f9;
+      position: relative;
+    }
+
+    .faq-question:last-child {
+      border-bottom: 0;
+    }
+
+    .faq-question::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 14px;
+      bottom: 14px;
+      width: 3px;
+      border-radius: 999px;
+      background: transparent;
+      transition: background 200ms ease;
+    }
+
+    .faq-question.open::before {
+      background: var(--accent);
+    }
+
+    .faq-question-button {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      text-align: left;
+      background: transparent;
+    }
+
+    .faq-question-button span {
+      font-size: 14px;
+      line-height: 1.5;
+      font-weight: 700;
+      padding-right: 4px;
+    }
+
+    .faq-question-button svg {
+      width: 16px;
+      height: 16px;
+      stroke: var(--text-secondary);
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex: none;
+      transition: transform 300ms ease, stroke 200ms ease;
+    }
+
+    .faq-question.open .faq-question-button svg {
+      transform: rotate(180deg);
+      stroke: var(--accent);
+    }
+
+    .faq-answer {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 360ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .faq-question.open .faq-answer {
+      grid-template-rows: 1fr;
+    }
+
+    .faq-answer-inner {
+      overflow: hidden;
+    }
+
+    .faq-answer p {
+      margin: 0;
+      padding: 0 16px 16px 19px;
+      font-size: 13px;
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+
+    .helper-tips {
+      padding: 0 18px 18px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .helper-tip {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, rgba(10, 22, 40, 0.04), rgba(10, 22, 40, 0.02));
+      border: 1px solid rgba(10, 22, 40, 0.06);
+    }
+
+    .helper-tip svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--accent);
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex: none;
+    }
+
+    .helper-tip span {
+      font-size: 13px;
+      line-height: 1.5;
+      color: var(--text-secondary);
+    }
+
+    .privacy {
+      margin-top: 14px;
+      padding: 0 6px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .fab-tip {
+      position: fixed;
+      right: 20px;
+      bottom: calc(96px + var(--safe-bottom));
+      max-width: 180px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: var(--card);
+      border: 1px solid rgba(200, 164, 78, 0.3);
+      box-shadow: var(--shadow-md);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+      opacity: 0;
+      transform: translateY(10px);
+      pointer-events: none;
+      transition: opacity 220ms ease, transform 220ms ease;
+      z-index: 20;
+    }
+
+    .fab-tip::after {
+      content: "";
+      position: absolute;
+      right: 22px;
+      bottom: -7px;
+      width: 12px;
+      height: 12px;
+      background: var(--card);
+      border-right: 1px solid rgba(200, 164, 78, 0.3);
+      border-bottom: 1px solid rgba(200, 164, 78, 0.3);
+      transform: rotate(45deg);
+    }
+
+    .fab-tip.visible {
+      opacity: 1;
+      transform: translateY(0);
+      animation: pulseTip 1.8s ease-in-out infinite;
+    }
+
+    .chat-fab {
+      position: fixed;
+      right: 16px;
+      bottom: calc(24px + var(--safe-bottom));
+      width: 60px;
+      height: 60px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #d3b15c 0%, var(--accent) 100%);
+      color: var(--primary);
+      box-shadow: 0 16px 32px rgba(200, 164, 78, 0.3);
+      z-index: 21;
+      transition: transform 120ms ease, box-shadow 180ms ease;
+      animation: fabPulse 2.4s ease-in-out infinite;
+    }
+
+    .chat-fab:active {
+      transform: scale(0.95);
+    }
+
+    .chat-fab svg {
+      width: 28px;
+      height: 28px;
+      stroke: currentColor;
+      stroke-width: 1.9;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .chat-sheet {
+      position: fixed;
+      inset: 0;
+      background: rgba(10, 22, 40, 0.28);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 220ms ease;
+      z-index: 40;
+    }
+
+    .chat-sheet.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .chat-panel {
+      width: min(100%, 960px);
+      height: min(78vh, 680px);
+      background: var(--card);
+      border-radius: 24px 24px 0 0;
+      overflow: hidden;
+      box-shadow: 0 -12px 38px rgba(10, 22, 40, 0.2);
+      transform: translateY(100%);
+      transition: transform 420ms cubic-bezier(0.22, 1.2, 0.36, 1);
+      display: flex;
+      flex-direction: column;
+      touch-action: none;
+    }
+
+    .chat-sheet.open .chat-panel {
+      transform: translateY(0);
+    }
+
+    .chat-handle-wrap {
+      padding-top: 10px;
+      background: linear-gradient(180deg, var(--primary) 0%, var(--primary-light) 100%);
+    }
+
+    .chat-handle {
+      width: 42px;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.3);
+      margin: 0 auto 10px;
+    }
+
+    .chat-head {
+      padding: 0 16px 14px;
+      background: linear-gradient(180deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .chat-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .chat-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: grid;
+      place-items: center;
+      flex: none;
+    }
+
+    .chat-avatar svg {
+      width: 22px;
+      height: 22px;
+      stroke: #fff;
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .chat-brand strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.3;
+    }
+
+    .chat-brand span {
+      display: block;
+      margin-top: 4px;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .chat-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #fff;
+      flex: none;
+    }
+
+    .chat-close svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .chat-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px 14px 12px;
+      background:
+        linear-gradient(180deg, rgba(248, 249, 251, 0.92), rgba(248, 249, 251, 1)),
+        #f8f9fb;
+      overscroll-behavior: contain;
+    }
+
+    .message-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .message {
+      display: flex;
+      gap: 10px;
+      align-items: flex-end;
+      animation: messageIn 200ms ease forwards;
+    }
+
+    .message.ai {
+      justify-content: flex-start;
+    }
+
+    .message.user {
+      justify-content: flex-end;
+    }
+
+    .message-badge {
+      width: 32px;
+      height: 32px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      flex: none;
+      background: rgba(10, 22, 40, 0.06);
+      color: var(--primary);
+    }
+
+    .message-badge svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .message-bubble {
+      max-width: min(78%, 540px);
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-size: 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .message-bubble.error {
+      background: #fff1f2 !important;
+      color: #b42318 !important;
+      border: 1px solid rgba(220, 38, 38, 0.18);
+    }
+
+    .message.ai .message-bubble {
+      background: #f1f5f9;
+      color: var(--text);
+      border-top-left-radius: 6px;
+    }
+
+    .message.user .message-bubble {
+      background: var(--primary);
+      color: #fff;
+      border-top-right-radius: 6px;
+    }
+
+    .typing {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .typing i {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--text-muted);
+      display: inline-block;
+      animation: blink 1s infinite ease-in-out;
+    }
+
+    .typing i:nth-child(2) { animation-delay: 0.15s; }
+    .typing i:nth-child(3) { animation-delay: 0.3s; }
+
+    .chat-form {
+      border-top: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.96);
+      padding: 12px 12px calc(12px + var(--safe-bottom));
+    }
+
+    .quick-question-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 10px;
+    }
+
+    .quick-question-btn {
+      height: 34px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: #f8fafc;
+      border: 1px solid rgba(148, 163, 184, 0.22);
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 700;
+      transition: transform 120ms ease, border-color 180ms ease, color 180ms ease, background 180ms ease;
+    }
+
+    .quick-question-btn:active {
+      transform: scale(0.96);
+    }
+
+    .quick-question-btn:hover {
+      color: var(--primary);
+      border-color: rgba(200, 164, 78, 0.36);
+      background: rgba(200, 164, 78, 0.1);
+    }
+
+    .chat-input-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: end;
+    }
+
+    .chat-input {
+      width: 100%;
+      min-height: 46px;
+      max-height: 110px;
+      resize: none;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: #fff;
+      padding: 12px 14px;
+      outline: none;
+      color: var(--text);
+      line-height: 1.5;
+      transition: border-color 180ms ease, box-shadow 180ms ease;
+    }
+
+    .chat-input:focus {
+      border-color: rgba(200, 164, 78, 0.6);
+      box-shadow: 0 0 0 4px rgba(200, 164, 78, 0.12);
+    }
+
+    .send-btn {
+      height: 46px;
+      min-width: 54px;
+      padding: 0 16px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #d3b15c 0%, var(--accent) 100%);
+      color: var(--primary);
+      font-weight: 800;
+      box-shadow: 0 10px 22px rgba(200, 164, 78, 0.24);
+      transition: transform 120ms ease, opacity 160ms ease;
+    }
+
+    .send-btn:active {
+      transform: scale(0.96);
+    }
+
+    .send-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .chat-meta {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--text-muted);
+      text-align: center;
+    }
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: calc(100px + var(--safe-bottom));
+      transform: translate(-50%, 14px);
+      padding: 10px 14px;
+      border-radius: 999px;
+      background: rgba(10, 22, 40, 0.9);
+      color: #fff;
+      font-size: 13px;
+      box-shadow: var(--shadow-md);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 180ms ease, transform 180ms ease;
+      z-index: 60;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+    @keyframes cardIn {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes messageIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes blink {
+      0%, 80%, 100% { opacity: 0.25; }
+      40% { opacity: 1; }
+    }
+
+    @keyframes pulseTip {
+      0%, 100% { box-shadow: var(--shadow-md); }
+      50% { box-shadow: 0 16px 34px rgba(200, 164, 78, 0.22); }
+    }
+
+    @keyframes fabPulse {
+      0%, 100% { box-shadow: 0 16px 32px rgba(200, 164, 78, 0.3); }
+      50% { box-shadow: 0 18px 38px rgba(200, 164, 78, 0.42); }
+    }
+
+    @media (min-width: 768px) {
+      .page {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+      .topbar {
+        padding: 18px 20px;
+      }
+
+      .brand-copy h1 {
+        font-size: 26px;
+      }
+
+      .shortcut-grid {
+        gap: 12px;
+        padding-left: 18px;
+        padding-right: 18px;
+        padding-bottom: 18px;
+      }
+
+      .shortcut-card {
+        min-height: 128px;
+        padding: 16px 14px;
+      }
+
+      .shortcut-title {
+        font-size: 15px;
+      }
+
+      .faq-wrap {
+        padding-left: 18px;
+        padding-right: 18px;
+        padding-bottom: 18px;
+      }
+
+      .helper-tips {
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-bottom: 20px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .chat-panel {
+        height: min(74vh, 720px);
+      }
+    }
+
+    @media (max-width: 767px) {
+      .section-head {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shortcut-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .top-link {
+        align-self: stretch;
+        justify-content: center;
+      }
+
+      .message-bubble {
+        max-width: 84%;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *, *::before, *::after {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="28" height="28" fill="none">
+            <rect x="12" y="12" width="24" height="20" rx="8" stroke="#ffffff" stroke-width="2"></rect>
+            <path d="M24 8v4M16 18h16M18 25h4M26 25h4M20 32v4h8v-4" stroke="#c8a44e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <circle cx="19" cy="22" r="1.5" fill="#ffffff"></circle>
+            <circle cx="29" cy="22" r="1.5" fill="#ffffff"></circle>
+          </svg>
+        </div>
+        <div class="brand-copy">
+          <h1>燕理小智</h1>
+          <p>你的校园智能助手</p>
+        </div>
+      </div>
+      <a class="top-link" href="/" aria-label="返回查分选专业">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" aria-hidden="true">
+          <path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <span>查分选专业</span>
+      </a>
+    </header>
+
+    <section class="section" aria-labelledby="shortcut-title">
+      <div class="section-head">
+        <div>
+          <h2 id="shortcut-title">快捷入口</h2>
+          <p>围绕报到、住宿、课程和校园服务，先看重点，再去对应问答。</p>
+        </div>
+        <span class="section-note">2 x 4 导航卡片</span>
+      </div>
+      <div class="shortcut-grid" id="shortcutGrid">
+        <button class="shortcut-card" data-target="faq-checkin" data-delay="0" type="button">
+          <span class="shortcut-icon" style="background: rgba(59,130,246,0.12); color: #3b82f6;">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 4h8"></path>
+              <path d="M9 2v4"></path>
+              <path d="M15 2v4"></path>
+              <rect x="5" y="4" width="14" height="18" rx="2"></rect>
+              <path d="M8 10h8"></path>
+              <path d="M8 14h8"></path>
+              <path d="M8 18h5"></path>
+            </svg>
+          </span>
+          <span class="shortcut-copy">
+            <span class="shortcut-title">报到流程</span>
+            <span class="shortcut-desc">材料与到校安排</span>
+          </span>
+        </button>
+        <button class="shortcut-card" data-target="faq-service" data-delay="1" type="button">
+          <span class="shortcut-icon" style="background: rgba(200,164,78,0.14); color: #c8a44e;">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="6" width="18" height="12" rx="3"></rect>
+              <path d="M3 10h18"></path>
+              <path d="M7 15h4"></path>
+            </svg>
+          </span>
+          <span class="shortcut-copy">
+            <span class="shortcut-title">校园卡</span>
+            <span class="shortcut-desc">办理与充值入口</span>
+          </span>
+        </button>
+        <button class="shortcut-card" data-target="faq-dorm" data-delay="2" type="button">
+          <span class="shortcut-icon" style="background: rgba(39,174,96,0.12); color: #27ae60;">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 10.5L12 4l9 6.5"></path>
+              <path d="M5 10v10h14V10"></path>
+              <path d="M8 20v-5h8v5"></path>
+            </svg>
+          </span>
+          <span class="shortcut-copy">
+            <span class="shortcut-title">宿舍</span>
+            <span class="shortcut-desc">房型与生活配套</span>
+          </span>
+        </button>
+        <button class="shortcut-card" data-target="faq-service" data-delay="3" type="button">
+          <span class="shortcut-icon" style="background: rgba(245,158,11,0.14); color: #f59e0b;">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12c2.5-2 13.5-2 16 0"></path>
+              <path d="M6 12c0 4.4 2.7 8 6 8s6-3.6 6-8"></path>
+              <path d="M18 8l2 4"></path>
+              <path d="M9 9l-1-3"></path>
+            </svg>
+          </span>
+          <span class="shortcut-copy">
+            <span class="shortcut-title">食堂</span>
+            <span class="shortcut-desc">餐饮档口概览</span>
+          </span>
+        </button>
+        <button class="shortcut-card" data-target="faq-course" data-delay="4" type="button">
+          <span class="shortcut-icon" style="background: rgba(139,92,246,0.12); color: #8b5cf6;">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 5.5A2.5 2.5 0 0 1 7.5 3H19v17H7.5A2.5 2.5 0 0 0 5 22V5.5Z"></path>
+              <path d="M5 18a2.5 2.5 0 0 1 2.5-2H19"></path>
+              <path d="M9 7h6"></path>
+              <path d="M9 11h6"></path>
+            </svg>
+          </span>
+          <span class="shortcut-copy">
+            <span class="shortcut-title">选课指南</span>
+            <span class="shortcut-desc">大一选课说明</span>
+          </span>
+        </button>
+        <button class="shortcut-card" data-target="faq-dorm" data-delay="5" type="button">
+          <span class="shortcut-icon" style="background: rgba(231,76,60,0.12); color: #e74c3c;">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M3 8.5 12 4l9 4.5v7L12 20l-9-4.5z"></path>
+              <path d="M12 4v16"></path>
+              <path d="M3 8.5 12 13l9-4.5"></path>
+            </svg>
+          </span>
+          <span class="shortcut-copy">
+            <span class="shortcut-title">快递超市</span>
+            <span class="shortcut-desc">收件与取件信息</span>
+          </span>
+        </button>
+        <button class="shortcut-card" data-target="faq-map" data-delay="6" type="button">
+          <span class="shortcut-icon" style="background: rgba(14,165,233,0.12); color: #0ea5e9;">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9 18 3 20V6l6-2 6 2 6-2v14l-6 2-6-2Z"></path>
+              <path d="M9 4v14"></path>
+              <path d="M15 6v14"></path>
+            </svg>
+          </span>
+          <span class="shortcut-copy">
+            <span class="shortcut-title">地图交通</span>
+            <span class="shortcut-desc">路线内容整理中</span>
+          </span>
+        </button>
+        <button class="shortcut-card" data-target="faq-service" data-delay="7" type="button">
+          <span class="shortcut-icon" style="background: rgba(100,116,139,0.12); color: #64748b;">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"></circle>
+              <path d="M9.5 9a2.5 2.5 0 1 1 4.2 1.8c-.8.7-1.7 1.2-1.7 2.7"></path>
+              <path d="M12 17h.01"></path>
+            </svg>
+          </span>
+          <span class="shortcut-copy">
+            <span class="shortcut-title">常见问题</span>
+            <span class="shortcut-desc">查找高频答疑</span>
+          </span>
+        </button>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="faq-title">
+      <div class="section-head">
+        <div>
+          <h2 id="faq-title">新生 FAQ</h2>
+          <p>分类查看校园生活常见问题，展开后可继续进入聊天提问。</p>
+        </div>
+        <span class="section-note">默认折叠</span>
+      </div>
+      <div class="faq-wrap" id="faqRoot">
+        <article class="faq-category" id="faq-checkin" data-category>
+          <button class="faq-category-button" type="button" data-category-trigger aria-expanded="false">
+            <span class="faq-category-title">
+              <strong>报到注册</strong>
+              <span>到校材料、报到时间与登记安排</span>
+            </span>
+            <span class="faq-chevron" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+            </span>
+          </button>
+          <div class="faq-category-panel">
+            <div class="faq-category-inner">
+              <div class="faq-question" data-question>
+                <button class="faq-question-button" type="button" data-question-trigger aria-expanded="false">
+                  <span>报到需要带哪些材料？</span>
+                  <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>内容整理中，请稍后查看。</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-question" data-question>
+                <button class="faq-question-button" type="button" data-question-trigger aria-expanded="false">
+                  <span>可以提前到校吗？</span>
+                  <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>内容整理中，请稍后查看。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="faq-category" id="faq-dorm" data-category>
+          <button class="faq-category-button" type="button" data-category-trigger aria-expanded="false">
+            <span class="faq-category-title">
+              <strong>住宿生活</strong>
+              <span>宿舍、快递与入校后的日常支持</span>
+            </span>
+            <span class="faq-chevron" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+            </span>
+          </button>
+          <div class="faq-category-panel">
+            <div class="faq-category-inner">
+              <div class="faq-question" data-question>
+                <button class="faq-question-button" type="button" data-question-trigger aria-expanded="false">
+                  <span>宿舍几人间？有空调吗？</span>
+                  <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>内容整理中，请稍后查看。</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-question" data-question>
+                <button class="faq-question-button" type="button" data-question-trigger aria-expanded="false">
+                  <span>快递地址是什么？</span>
+                  <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>内容整理中，请稍后查看。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="faq-category" id="faq-course" data-category>
+          <button class="faq-category-button" type="button" data-category-trigger aria-expanded="false">
+            <span class="faq-category-title">
+              <strong>学习与课程</strong>
+              <span>新生选课、培养安排与课堂准备</span>
+            </span>
+            <span class="faq-chevron" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+            </span>
+          </button>
+          <div class="faq-category-panel">
+            <div class="faq-category-inner">
+              <div class="faq-question" data-question>
+                <button class="faq-question-button" type="button" data-question-trigger aria-expanded="false">
+                  <span>大一新生怎么选课？</span>
+                  <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>内容整理中，请稍后查看。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="faq-category" id="faq-service" data-category>
+          <button class="faq-category-button" type="button" data-category-trigger aria-expanded="false">
+            <span class="faq-category-title">
+              <strong>校园服务</strong>
+              <span>校园卡、食堂与高频生活服务</span>
+            </span>
+            <span class="faq-chevron" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+            </span>
+          </button>
+          <div class="faq-category-panel">
+            <div class="faq-category-inner">
+              <div class="faq-question" data-question>
+                <button class="faq-question-button" type="button" data-question-trigger aria-expanded="false">
+                  <span>校园卡怎么办理和充值？</span>
+                  <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>内容整理中，请稍后查看。</p>
+                  </div>
+                </div>
+              </div>
+              <div class="faq-question" data-question>
+                <button class="faq-question-button" type="button" data-question-trigger aria-expanded="false">
+                  <span>食堂有哪些档口？</span>
+                  <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>内容整理中，请稍后查看。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="faq-category" id="faq-map" data-category>
+          <button class="faq-category-button" type="button" data-category-trigger aria-expanded="false">
+            <span class="faq-category-title">
+              <strong>地图与交通</strong>
+              <span>校内导航、周边通勤与出行信息</span>
+            </span>
+            <span class="faq-chevron" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+            </span>
+          </button>
+          <div class="faq-category-panel">
+            <div class="faq-category-inner">
+              <div class="faq-question" data-question>
+                <button class="faq-question-button" type="button" data-question-trigger aria-expanded="false">
+                  <span>校内地图和交通路线在哪里看？</span>
+                  <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"></path></svg>
+                </button>
+                <div class="faq-answer">
+                  <div class="faq-answer-inner">
+                    <p>内容整理中，请稍后查看。</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="tip-title">
+      <div class="section-head">
+        <div>
+          <h2 id="tip-title">智能问答</h2>
+          <p>快捷入口没覆盖到的问题，可以直接问燕理小智。</p>
+        </div>
+      </div>
+      <div class="helper-tips">
+        <div class="helper-tip">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18"></path><path d="M3 12h18"></path></svg>
+          <span>支持继续追问报到、住宿、课程和校园服务相关问题。</span>
+        </div>
+        <div class="helper-tip">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4 4L19 6"></path></svg>
+          <span>接口异常时会给出明确提示，不会吞掉失败状态。</span>
+        </div>
+      </div>
+    </section>
+
+    <p class="privacy">您的提问仅用于本次回答，不会存储</p>
+  </main>
+
+  <div class="fab-tip" id="fabTip" role="status" aria-live="polite">有什么想问的？</div>
+
+  <button class="chat-fab" id="chatFab" type="button" aria-label="打开燕理小智聊天窗口">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <rect x="5" y="5" width="14" height="11" rx="4"></rect>
+      <path d="M8 16v3l3-3"></path>
+      <path d="M9 10h.01"></path>
+      <path d="M15 10h.01"></path>
+      <path d="M9 7V4"></path>
+      <path d="M15 7V4"></path>
+    </svg>
+  </button>
+
+  <div class="chat-sheet" id="chatSheet" aria-hidden="true">
+    <section class="chat-panel" role="dialog" aria-modal="true" aria-labelledby="chatTitle">
+      <div class="chat-handle-wrap" id="chatDragArea">
+        <div class="chat-handle" aria-hidden="true"></div>
+      </div>
+      <div class="chat-head">
+        <div class="chat-brand">
+          <div class="chat-avatar" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <rect x="5" y="5" width="14" height="11" rx="4"></rect>
+              <path d="M8 16v3l3-3"></path>
+              <path d="M9 10h.01"></path>
+              <path d="M15 10h.01"></path>
+              <path d="M9 7V4"></path>
+              <path d="M15 7V4"></path>
+            </svg>
+          </div>
+          <div>
+            <strong id="chatTitle">燕理小智</strong>
+            <span>校园问题可以直接问我</span>
+          </div>
+        </div>
+        <button class="chat-close" id="chatClose" type="button" aria-label="关闭聊天窗口">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12"></path><path d="M18 6 6 18"></path></svg>
+        </button>
+      </div>
+      <div class="chat-body" id="chatBody">
+        <div class="message-list" id="messageList">
+          <div class="message ai">
+            <div class="message-badge" aria-hidden="true">
+              <svg viewBox="0 0 24 24"><path d="M12 3v3"></path><rect x="5" y="6" width="14" height="11" rx="4"></rect><path d="M8 11h.01"></path><path d="M16 11h.01"></path><path d="M9 15h6"></path></svg>
+            </div>
+            <div class="message-bubble">你好，我是燕理小智。你可以问我报到、住宿、课程或校园服务相关问题。</div>
+          </div>
+        </div>
+      </div>
+      <form class="chat-form" id="chatForm">
+        <div class="quick-question-row" id="quickQuestionRow">
+          <button class="quick-question-btn" type="button" data-question="报到流程">报到流程</button>
+          <button class="quick-question-btn" type="button" data-question="宿舍情况">宿舍情况</button>
+          <button class="quick-question-btn" type="button" data-question="校园卡">校园卡</button>
+        </div>
+        <div class="chat-input-row">
+          <textarea class="chat-input" id="chatInput" rows="1" placeholder="输入你的问题..." maxlength="500"></textarea>
+          <button class="send-btn" id="sendBtn" type="submit" disabled>发送</button>
+        </div>
+        <div class="chat-meta">您的提问仅用于本次回答，不会存储</div>
+      </form>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    (function () {
+      var categories = Array.prototype.slice.call(document.querySelectorAll('[data-category]'));
+      var shortcutCards = Array.prototype.slice.call(document.querySelectorAll('.shortcut-card'));
+      var chatFab = document.getElementById('chatFab');
+      var chatSheet = document.getElementById('chatSheet');
+      var chatClose = document.getElementById('chatClose');
+      var chatForm = document.getElementById('chatForm');
+      var chatInput = document.getElementById('chatInput');
+      var quickQuestionRow = document.getElementById('quickQuestionRow');
+      var sendBtn = document.getElementById('sendBtn');
+      var messageList = document.getElementById('messageList');
+      var chatBody = document.getElementById('chatBody');
+      var fabTip = document.getElementById('fabTip');
+      var toast = document.getElementById('toast');
+      var chatDragArea = document.getElementById('chatDragArea');
+      var tipStorageKey = 'yanli_helper_tip_hidden';
+      var isSending = false;
+      var typingNode = null;
+      var touchStartY = null;
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add('show');
+        clearTimeout(showToast.timer);
+        showToast.timer = window.setTimeout(function () {
+          toast.classList.remove('show');
+        }, 2200);
+      }
+
+      function scrollChatToBottom() {
+        window.requestAnimationFrame(function () {
+          chatBody.scrollTop = chatBody.scrollHeight;
+        });
+      }
+
+      function updateSendButtonState() {
+        sendBtn.disabled = isSending || !String(chatInput.value || '').trim();
+      }
+
+      function openChat() {
+        chatSheet.classList.add('open');
+        chatSheet.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        hideFabTip(true);
+        window.setTimeout(function () {
+          chatInput.focus();
+          scrollChatToBottom();
+        }, 220);
+      }
+
+      function closeChat() {
+        chatSheet.classList.remove('open');
+        chatSheet.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      }
+
+      function hideFabTip(persist) {
+        fabTip.classList.remove('visible');
+        if (persist) {
+          try {
+            window.localStorage.setItem(tipStorageKey, '1');
+          } catch (error) {
+            // ignore localStorage failures
+          }
+        }
+      }
+
+      function setupFabTip() {
+        var hidden = false;
+        try {
+          hidden = window.localStorage.getItem(tipStorageKey) === '1';
+        } catch (error) {
+          hidden = false;
+        }
+        if (hidden) {
+          return;
+        }
+        window.setTimeout(function () {
+          fabTip.classList.add('visible');
+        }, 3000);
+        window.setTimeout(function () {
+          fabTip.classList.remove('visible');
+        }, 13000);
+      }
+
+      function appendMessage(role, content, options) {
+        var row = document.createElement('div');
+        row.className = 'message ' + role;
+
+        if (role === 'ai') {
+          var badge = document.createElement('div');
+          badge.className = 'message-badge';
+          badge.setAttribute('aria-hidden', 'true');
+          badge.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 3v3"></path><rect x="5" y="6" width="14" height="11" rx="4"></rect><path d="M8 11h.01"></path><path d="M16 11h.01"></path><path d="M9 15h6"></path></svg>';
+          row.appendChild(badge);
+        }
+
+        var bubble = document.createElement('div');
+        bubble.className = 'message-bubble';
+        if (options && options.isError) {
+          bubble.classList.add('error');
+        }
+        bubble.textContent = content;
+        row.appendChild(bubble);
+        messageList.appendChild(row);
+        scrollChatToBottom();
+        return row;
+      }
+
+      function setTyping(show) {
+        if (show && !typingNode) {
+          typingNode = document.createElement('div');
+          typingNode.className = 'message ai';
+          typingNode.innerHTML = '<div class="message-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3v3"></path><rect x="5" y="6" width="14" height="11" rx="4"></rect><path d="M8 11h.01"></path><path d="M16 11h.01"></path><path d="M9 15h6"></path></svg></div><div class="message-bubble">正在输入<span class="typing" aria-label="正在输入"><i></i><i></i><i></i></span></div>';
+          messageList.appendChild(typingNode);
+          scrollChatToBottom();
+          return;
+        }
+
+        if (!show && typingNode) {
+          typingNode.remove();
+          typingNode = null;
+        }
+      }
+
+      function autoResizeTextarea() {
+        chatInput.style.height = 'auto';
+        chatInput.style.height = Math.min(chatInput.scrollHeight, 110) + 'px';
+        updateSendButtonState();
+      }
+
+      function openCategory(category) {
+        categories.forEach(function (item) {
+          var trigger = item.querySelector('[data-category-trigger]');
+          var isTarget = item === category;
+          item.classList.toggle('open', isTarget);
+          trigger.setAttribute('aria-expanded', String(isTarget));
+          if (!isTarget) {
+            Array.prototype.forEach.call(item.querySelectorAll('[data-question]'), function (question) {
+              question.classList.remove('open');
+              var questionTrigger = question.querySelector('[data-question-trigger]');
+              questionTrigger.setAttribute('aria-expanded', 'false');
+            });
+          }
+        });
+      }
+
+      categories.forEach(function (category) {
+        var categoryTrigger = category.querySelector('[data-category-trigger]');
+        categoryTrigger.addEventListener('click', function () {
+          var isOpen = category.classList.contains('open');
+          if (isOpen) {
+            category.classList.remove('open');
+            categoryTrigger.setAttribute('aria-expanded', 'false');
+            return;
+          }
+          openCategory(category);
+        });
+
+        Array.prototype.forEach.call(category.querySelectorAll('[data-question]'), function (question) {
+          var questionTrigger = question.querySelector('[data-question-trigger]');
+          questionTrigger.addEventListener('click', function () {
+            var isOpen = question.classList.contains('open');
+            Array.prototype.forEach.call(category.querySelectorAll('[data-question]'), function (item) {
+              item.classList.remove('open');
+              item.querySelector('[data-question-trigger]').setAttribute('aria-expanded', 'false');
+            });
+            if (!isOpen) {
+              question.classList.add('open');
+              questionTrigger.setAttribute('aria-expanded', 'true');
+            }
+          });
+        });
+      });
+
+      shortcutCards.forEach(function (card) {
+        card.addEventListener('click', function () {
+          var targetId = card.getAttribute('data-target');
+          var target = document.getElementById(targetId);
+          if (!target) {
+            showToast('内容整理中');
+            return;
+          }
+          if (targetId === 'faq-map') {
+            showToast('内容整理中');
+            return;
+          }
+          openCategory(target);
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+
+      chatFab.addEventListener('click', openChat);
+      chatFab.addEventListener('pointerdown', function () {
+        hideFabTip(true);
+      });
+      chatClose.addEventListener('click', closeChat);
+      chatSheet.addEventListener('click', function (event) {
+        if (event.target === chatSheet) {
+          closeChat();
+        }
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape' && chatSheet.classList.contains('open')) {
+          closeChat();
+        }
+      });
+
+      chatInput.addEventListener('input', autoResizeTextarea);
+      quickQuestionRow.addEventListener('click', function (event) {
+        var button = event.target.closest('[data-question]');
+        if (!button) return;
+        chatInput.value = button.getAttribute('data-question') || '';
+        autoResizeTextarea();
+        chatInput.focus();
+      });
+      chatInput.addEventListener('focus', function () {
+        hideFabTip(true);
+      });
+      chatInput.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter' && !event.shiftKey) {
+          event.preventDefault();
+          chatForm.requestSubmit();
+        }
+      });
+
+      chatDragArea.addEventListener('touchstart', function (event) {
+        if (!event.touches || !event.touches.length) {
+          return;
+        }
+        touchStartY = event.touches[0].clientY;
+      }, { passive: true });
+
+      chatDragArea.addEventListener('touchend', function (event) {
+        if (touchStartY === null || !event.changedTouches || !event.changedTouches.length) {
+          touchStartY = null;
+          return;
+        }
+        var deltaY = event.changedTouches[0].clientY - touchStartY;
+        touchStartY = null;
+        if (deltaY > 80) {
+          closeChat();
+        }
+      }, { passive: true });
+
+      async function sendMessage(question) {
+        isSending = true;
+        updateSendButtonState();
+        setTyping(true);
+
+        try {
+          var response = await fetch('/api/chat', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              source: 'yanli',
+              question: question
+            })
+          });
+
+          if (!response.ok) {
+            throw new Error('HTTP ' + response.status);
+          }
+
+          var data = await response.json();
+          var answer = '';
+
+          if (typeof data === 'string') {
+            answer = data;
+          } else if (data && typeof data.answer === 'string') {
+            answer = data.answer;
+          } else if (data && typeof data.reply === 'string') {
+            answer = data.reply;
+          } else if (data && typeof data.message === 'string') {
+            answer = data.message;
+          }
+
+          if (!answer) {
+            answer = '暂时没有拿到有效回复，请稍后再试。';
+          }
+
+          setTyping(false);
+          appendMessage('ai', answer);
+        } catch (error) {
+          setTyping(false);
+          appendMessage('ai', '当前暂时无法连接问答服务，请稍后再试。', { isError: true });
+          showToast('网络异常');
+        } finally {
+          isSending = false;
+          updateSendButtonState();
+          chatInput.focus();
+        }
+      }
+
+      chatForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        if (isSending) {
+          return;
+        }
+        var question = chatInput.value.trim();
+        if (!question) {
+          showToast('请输入问题');
+          chatInput.focus();
+          return;
+        }
+        appendMessage('user', question);
+        chatInput.value = '';
+        autoResizeTextarea();
+        openChat();
+        sendMessage(question);
+      });
+
+      autoResizeTextarea();
+      updateSendButtonState();
+      setupFabTip();
+    })();
+  </script>
+</body>
+</html>

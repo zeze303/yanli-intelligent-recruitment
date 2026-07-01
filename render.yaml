@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: yanli-intelligent-recruitment
+    env: node
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: DEEPSEEK_KEY
+        sync: false

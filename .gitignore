@@ -1,0 +1,11 @@
+node_modules/
+.env
+资料/
+build/peek.js
+build/peek.mjs
+build/peek2.js
+build/list.js
+build/check_sheets.js
+build/majors.xlsx
+build/rank.xlsx
+*.xlsx

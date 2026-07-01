@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1100 2500">
+  <defs>
+    <linearGradient id="bgG" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#0a1628"/><stop offset="100%" stop-color="#0f2440"/></linearGradient>
+    <linearGradient id="gld" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#c8a44e"/><stop offset="100%" stop-color="#e0c77a"/></linearGradient>
+    <linearGradient id="qBg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#152d50"/><stop offset="100%" stop-color="#0f2440"/></linearGradient>
+    <filter id="cSh"><feDropShadow dx="0" dy="4" stdDeviation="14" flood-color="#0a1628" flood-opacity=".12"/></filter>
+  </defs>
+  <rect width="1100" height="2500" fill="#e8ecf1"/>
+  <text x="550" y="24" text-anchor="middle" font-family="system-ui, sans-serif" font-size="12" fill="#94a3b8" letter-spacing="3">招生工具 · 移动端 375px 布局（设计稿预览）</text>
+  <text x="550" y="44" text-anchor="middle" font-family="system-ui, sans-serif" font-size="10" fill="#cbd5e1">请直接打开对应的 .svg 文件查看完整设计</text>
+</svg>
