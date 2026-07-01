@@ -1061,6 +1061,7 @@
       }
     }
   </style>
+<script src="faq-data.js"></script>
 </head>
 <body>
   <header class="topnav">
@@ -1250,7 +1251,7 @@
                 </button>
                 <div class="faq-answer">
                   <div class="faq-answer-inner">
-                    <p>内容整理中，请稍后查看。</p>
+                    <p>毕业证书、准考证、录取通知书、身份证、户口本复印件。</p>
                   </div>
                 </div>
               </div>
@@ -1261,7 +1262,7 @@
                 </button>
                 <div class="faq-answer">
                   <div class="faq-answer-inner">
-                    <p>内容整理中，请稍后查看。</p>
+                    <p>规定时间到校即可。如有特殊情况需要提前到校，可联系辅导员咨询。</p>
                   </div>
                 </div>
               </div>
@@ -1288,7 +1289,7 @@
                 </button>
                 <div class="faq-answer">
                   <div class="faq-answer-inner">
-                    <p>内容整理中，请稍后查看。</p>
+                    <p>上一届报到地点在学校报告厅，本届具体安排暂定，请关注录取通知书中的说明。</p>
                   </div>
                 </div>
               </div>
@@ -1299,7 +1300,7 @@
                 </button>
                 <div class="faq-answer">
                   <div class="faq-answer-inner">
-                    <p>内容整理中，请稍后查看。</p>
+                    <p>开学前由学校统一组织转接，具体流程请关注班级通知。</p>
                   </div>
                 </div>
               </div>
@@ -1326,7 +1327,7 @@
                 </button>
                 <div class="faq-answer">
                   <div class="faq-answer-inner">
-                    <p>内容整理中，请稍后查看。</p>
+                    <p>六人间，配备空调且不限电。</p>
                   </div>
                 </div>
               </div>
@@ -1353,7 +1354,7 @@
                 </button>
                 <div class="faq-answer">
                   <div class="faq-answer-inner">
-                    <p>内容整理中，请稍后查看。</p>
+                    <p>可以的。学校会给你一定的范围，在几个宿舍中选一个。床位和桌位先到先得。</p>
                   </div>
                 </div>
               </div>
@@ -1364,7 +1365,7 @@
                 </button>
                 <div class="faq-answer">
                   <div class="faq-answer-inner">
-                    <p>内容整理中，请稍后查看。</p>
+                    <p>河北省廊坊市三河市燕郊高新区迎宾路808号燕京理工学院。到校后一般在菜鸟驿站取件。</p>
                   </div>
                 </div>
               </div>
@@ -1391,7 +1392,7 @@
                 </button>
                 <div class="faq-answer">
                   <div class="faq-answer-inner">
-                    <p>内容整理中，请稍后查看。</p>
+                    <p>刚到校时卡里有一定余额。用完后由宿舍长手机缴费，宿舍成员平摊水电费。</p>
                   </div>
                 </div>
               </div>
@@ -1810,5 +1811,37 @@
       setupFabTip();
     })();
   </script>
+
+  // Populate FAQ answers from FAQ_DATA
+  (function() {
+    if (typeof FAQ_DATA === 'undefined') return;
+    var faqMap = {};
+    FAQ_DATA.forEach(function(f) { faqMap[f.question] = f.answer; });
+    var questions = document.querySelectorAll('.faq-question');
+    questions.forEach(function(btn) {
+      var textEl = btn.querySelector('.faq-label');
+      if (!textEl) {
+        // Try getting text from button directly
+        var label = btn.cloneNode(true);
+        var arrows = label.querySelectorAll('.faq-arrow');
+        arrows.forEach(function(a) { a.remove(); });
+        var q = label.textContent.trim();
+        var ans = faqMap[q];
+        if (ans) {
+          var p = btn.parentElement.querySelector('.faq-answer p');
+          if (p) p.textContent = ans;
+        }
+        return;
+      }
+      var q = textEl.textContent.trim();
+      var ans = faqMap[q];
+      if (ans) {
+        var p = btn.parentElement.querySelector('.faq-answer p');
+        if (p) p.textContent = ans;
+      }
+    });
+  })();
+</script>
+
 </body>
 </html>
