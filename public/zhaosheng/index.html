@@ -1094,16 +1094,69 @@
       .bottom-card { padding: 12px; }
     }
 
-    @media (max-width: 420px) {
-      .page { padding-top: 12px; }
-      .hero h1 { font-size: 22px; }
-      .legend { justify-content: flex-start; }
-      thead th { font-size: 11px; padding-left: 8px; padding-right: 8px; }
-      tbody tr.major-row td { font-size: 12px; padding-left: 8px; padding-right: 8px; }
-      .major-name { font-size: 13px; }
-      .metric-value { font-size: 18px; }
-      .bottom-card { grid-template-columns: 1fr; }
+        @media (max-width: 480px) {
+      .page { padding: 56px 10px calc(90px + var(--safe-bottom)); }
+      .topnav-inner { padding: 0 10px; }
+      .topnav-title { font-size: 13px; }
+      .topnav-badge { display: none; }
+      .topnav-link { padding: 6px 10px; font-size: 11px; }
+      .topnav-links { gap: 2px; }
+      .hero { padding: 14px 14px 12px; border-radius: 18px; }
+      .hero h1 { font-size: 20px; }
+      .hero p { font-size: 12px; }
+      .hero-link { padding: 4px 10px; font-size: 11px; white-space: nowrap; }
+      .query-card { padding: 12px; }
+      .query-head { margin-bottom: 8px; }
+      .query-title { font-size: 15px; }
+      .query-hint { font-size: 11px; }
+      .score-input { height: 44px; font-size: 16px; padding: 0 40px 0 12px; }
+      .seg-btn, .chip { height: 36px; padding: 0 10px; font-size: 13px; }
+      .query-actions { gap: 6px; }
+      .btn-primary, .btn-secondary { height: 40px; font-size: 13px; }
+      .result-summary { grid-template-columns: repeat(3, minmax(0,1fr)); gap: 6px; }
+      .metric-card { padding: 8px 8px 10px; min-height: 72px; }
+      .metric-label { font-size: 11px; }
+      .metric-value { font-size: 17px; }
+      .metric-note { font-size: 10px; }
+      .section-sticky { padding: 4px 0 8px; }
+      .filter-card { padding: 8px; border-radius: 14px; }
+      .filter-row { margin-bottom: 8px; gap: 6px; }
+      .filter-title { font-size: 12px; min-width: 44px; }
+      .chip { height: 32px; padding: 0 8px; font-size: 12px; }
+      .chip-count { min-width: 48px; height: 26px; font-size: 11px; }
+      .table-section { border-radius: 16px; }
+      .table-head-title { padding: 12px 12px 6px; }
+      .table-head-title h2 { font-size: 15px; }
+      .table-subtext { font-size: 11px; }
+      table, thead, tbody, tr { display: block; }
+      thead { display: none; }
+      tbody tr.major-row { display: flex; flex-wrap: wrap; align-items: center; padding: 10px 12px; border-bottom: 1px solid var(--border); }
+      tbody tr.major-row td { display: inline-flex; align-items: center; padding: 0 !important; border: none !important; font-size: 12px; background: transparent !important; }
+      tbody tr.major-row td.name-cell { width: 100%; margin-bottom: 6px; }
+      tbody tr.major-row td:nth-child(2)::before { content: '投档 '; color: var(--text-secondary); font-size: 11px; }
+      tbody tr.major-row td:nth-child(3)::before { content: '位次 '; color: var(--text-secondary); font-size: 11px; }
+      tbody tr.major-row td:nth-child(4)::before { content: '等效 '; color: var(--text-secondary); font-size: 11px; }
+      tbody tr.major-row td:nth-child(2), tbody tr.major-row td:nth-child(3), tbody tr.major-row td:nth-child(4) { margin-right: 10px; }
+      tbody tr.major-row td:last-child { margin-left: auto; }
+      .detail-row, .detail-row td { display: block; border: none !important; padding: 0 !important; }
+      .detail-panel { margin: 0 12px; }
+      .detail-content { padding: 0 0 12px 0; font-size: 12px; }
+      .detail-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+      .bottom-bar { width: calc(100% - 16px); bottom: calc(8px + var(--safe-bottom)); }
+      .bottom-card { padding: 8px; grid-template-columns: 1fr; gap: 6px; border-radius: 16px; }
+      .bottom-btn { height: 44px; font-size: 12px; padding: 0 12px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+      .bottom-btn.highlight { font-size: 13px; }
       .bottom-btn.wide { grid-column: auto; }
+      .recommend-panel { position: fixed; left: 0; right: 0; bottom: 0; z-index: 130; margin: 0; border-radius: 20px 20px 0 0; padding: 16px 16px calc(16px + var(--safe-bottom)); max-height: 70vh; overflow-y: auto; box-shadow: 0 -8px 30px rgba(0,0,0,0.15); transform: translateY(100%); transition: transform 360ms cubic-bezier(0.22,1.2,0.36,1), opacity 240ms ease; }
+      .recommend-panel.show { transform: translateY(0); }
+      .recommend-panel::after { content: ''; display: block; width: 36px; height: 4px; border-radius: 2px; background: rgba(148,163,184,0.3); margin: -8px auto 12px; }
+      .recommend-panel-head h3 { font-size: 15px; }
+      .recommend-item { padding: 10px 12px; }
+      .recommend-item-name { font-size: 13px; }
+      .recommend-item-reason { font-size: 12px; }
+      .share-card { width: 100%; max-width: 375px; left: 50%; transform: translateX(-50%); }
+      .share-card-inner { padding: 18px; }
+      .toast { min-width: auto; max-width: calc(100vw - 48px); font-size: 13px; padding: 10px 18px; }
     }
 
     @media (min-width: 860px) {
@@ -2207,8 +2260,9 @@
         var queryRect = els.queryPanel.getBoundingClientRect();
         var queryHeight = Math.ceil(queryRect.height);
         var filterHeight = Math.ceil(document.getElementById('filterSticky').getBoundingClientRect().height);
-        document.documentElement.style.setProperty('--sticky-filter', queryHeight + 'px');
-        document.documentElement.style.setProperty('--sticky-head', (queryHeight + filterHeight) + 'px');
+        var navOffset = window.innerWidth <= 480 ? 48 : 0;
+        document.documentElement.style.setProperty('--sticky-filter', (queryHeight + navOffset) + 'px');
+        document.documentElement.style.setProperty('--sticky-head', (queryHeight + filterHeight + navOffset) + 'px');
       }
 
       function handleQuery() {
@@ -2325,6 +2379,9 @@
         els.copyBtn.addEventListener('click', copySummary);
         els.exportBtn.addEventListener('click', exportExcel);
         els.recommendCloseBtn.addEventListener('click', closeRecommendPanel);
+        els.recommendPanel.addEventListener('click', function(e) {
+          if (e.target === els.recommendPanel) closeRecommendPanel();
+        });
 
         window.addEventListener('resize', adjustStickyTop, { passive: true });
       }
