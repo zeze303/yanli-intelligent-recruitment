@@ -653,7 +653,7 @@
     }
 
     .chat-handle-wrap {
-      padding-top: 10px;
+      padding-top: max(10px, env(safe-area-inset-top, 0px));
       background: linear-gradient(180deg, var(--primary) 0%, var(--primary-light) 100%);
     }
 
@@ -841,16 +841,68 @@
       }
     }
 
-    @media (max-width: 640px) {
-      .shortcut-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-      }
+        @media (max-width: 640px) {
+      .shortcut-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .message-bubble { max-width: 84%; }
+    }
 
-
-
-      .message-bubble {
-        max-width: 84%;
-      }
+    @media (max-width: 480px) {
+      .page { padding: 56px 10px calc(80px + var(--safe-bottom)); }
+      .topnav-inner { padding: 0 10px; }
+      .topnav-title { font-size: 13px; }
+      .topnav-badge { display: none; }
+      .topnav-link { padding: 6px 8px; font-size: 11px; }
+      .topnav-links { gap: 2px; }
+      .topbar { padding: 12px; border-radius: 18px; }
+      .brand-mark { width: 40px; height: 40px; border-radius: 12px; }
+      .brand-copy h1 { font-size: 18px; }
+      .brand-copy p { font-size: 11px; }
+      .section { border-radius: 16px; }
+      .section-head { padding: 14px 14px 8px; }
+      .section-head h2 { font-size: 16px; }
+      .section-head p { font-size: 12px; }
+      .shortcut-grid { padding: 0 10px 12px; gap: 8px; }
+      .shortcut-card { min-height: 100px; padding: 12px 10px; gap: 10px; }
+      .shortcut-icon { width: 36px; height: 36px; }
+      .shortcut-icon svg { width: 18px; height: 18px; }
+      .shortcut-title { font-size: 13px; }
+      .shortcut-desc { font-size: 11px; margin-top: 4px; }
+      .faq-wrap { padding: 0 10px 10px; }
+      .faq-category + .faq-category { margin-top: 8px; }
+      .faq-category-button { padding: 12px 14px; }
+      .faq-category-title strong { font-size: 14px; }
+      .faq-category-title span { font-size: 11px; }
+      .faq-question-button { padding: 12px 14px; }
+      .faq-question-button span { font-size: 13px; }
+      .faq-answer p { padding: 0 14px 14px 17px; font-size: 12px; }
+      .faq-chevron { width: 26px; height: 26px; }
+      .helper-tips { padding: 0 14px 14px; gap: 8px; }
+      .helper-tip { padding: 10px 12px; }
+      .helper-tip span { font-size: 12px; }
+      .helper-tip svg { width: 16px; height: 16px; }
+      .chat-fab { width: 54px; height: 54px; right: 12px; bottom: calc(20px + var(--safe-bottom)); }
+      .chat-fab svg { width: 24px; height: 24px; }
+      .fab-tip { right: 14px; bottom: calc(84px + var(--safe-bottom)); max-width: 156px; font-size: 12px; padding: 8px 10px; }
+      .chat-panel { height: min(82vh, 600px); border-radius: 20px 20px 0 0; }
+      .chat-head { padding: 0 12px 10px; }
+      .chat-brand strong { font-size: 14px; }
+      .chat-brand span { font-size: 11px; }
+      .chat-avatar { width: 32px; height: 32px; }
+      .chat-avatar svg { width: 18px; height: 18px; }
+      .chat-close { width: 32px; height: 32px; }
+      .chat-close svg { width: 16px; height: 16px; }
+      .chat-body { padding: 12px 10px; }
+      .message-bubble { font-size: 13px; padding: 10px 12px; max-width: 86%; }
+      .message-badge { width: 28px; height: 28px; }
+      .message-badge svg { width: 16px; height: 16px; }
+      .chat-form { padding: 8px 8px calc(8px + var(--safe-bottom)); }
+      .quick-question-row { gap: 6px; margin-bottom: 8px; }
+      .quick-question-btn { height: 30px; padding: 0 10px; font-size: 11px; }
+      .chat-input-row { gap: 8px; }
+      .chat-input { min-height: 40px; font-size: 14px; padding: 8px 12px; }
+      .send-btn { height: 40px; min-width: 48px; padding: 0 12px; font-size: 13px; }
+      .chat-meta { font-size: 11px; margin-top: 6px; }
+      .toast { max-width: calc(100vw - 32px); font-size: 13px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
